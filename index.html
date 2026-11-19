@@ -1,0 +1,2712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>卫戍协议 · 盟约指南 · 2026.11</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg-void: #08080b;
+    --bg-deep: #0c0c11;
+    --bg-mid: #111118;
+    --bg-soft: #17171f;
+    --surface: rgba(22, 22, 30, 0.55);
+    --surface-hover: rgba(30, 30, 40, 0.72);
+    --surface-solid: #14141c;
+    --border-hair: rgba(255, 255, 255, 0.045);
+    --border-subtle: rgba(255, 255, 255, 0.07);
+    --border-strong: rgba(201, 169, 110, 0.22);
+    --border-glow: rgba(201, 169, 110, 0.45);
+    --text: #e8e8ee;
+    --text-mid: #9c9cae;
+    --text-dim: #5e5e70;
+    --text-faint: #3e3e4e;
+    --gold: #c9a96e;
+    --gold-bright: #e6cf9a;
+    --gold-deep: #8a7048;
+    --gold-glow: rgba(201, 169, 110, 0.12);
+    --blue: #7aa8d4;
+    --blue-soft: #9cc0e4;
+    --green: #7ec8a0;
+    --red: #e08270;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --serif: 'Noto Serif SC', 'Songti SC', serif;
+    --sans: 'Inter', 'Noto Sans SC', -apple-system, system-ui, sans-serif;
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-card: 0 1px 2px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
+    --shadow-lift: 0 2px 8px rgba(0,0,0,0.5), 0 16px 48px rgba(0,0,0,0.45);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg-void);
+    color: var(--text);
+    line-height: 1.75;
+    padding: 0 0 120px;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ===== 背景层 1：光晕 ===== */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 45% at 18% -8%, rgba(201, 169, 110, 0.09), transparent 55%),
+      radial-gradient(ellipse 50% 35% at 88% 6%, rgba(122, 168, 212, 0.055), transparent 55%),
+      radial-gradient(ellipse 60% 50% at 50% 108%, rgba(201, 169, 110, 0.035), transparent 65%),
+      radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(0,0,0,0.5) 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== 背景层 2：噪点纹理 ===== */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: overlay;
+  }
+
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: 72px 72px;
+    pointer-events: none;
+    z-index: 0;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 10%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 10%, transparent 75%);
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  #listView, #detailView { position: relative; z-index: 1; }
+
+  /* ===== 顶部 ===== */
+  .hero {
+    text-align: center;
+    padding: 96px 0 56px;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.66rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 22px;
+    opacity: 0.85;
+    padding-left: 0.5em;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: linear-gradient(160deg, #f5ecd6 0%, var(--gold-bright) 35%, var(--gold) 65%, var(--gold-deep) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.25;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 2px 12px rgba(201,169,110,0.15));
+  }
+
+  .hero-sub {
+    color: var(--text-mid);
+    font-size: 0.82rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    font-family: var(--serif);
+  }
+
+  .hero-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 36px;
+  }
+
+  .hero-divider::before,
+  .hero-divider::after {
+    content: '';
+    width: 48px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-deep));
+  }
+
+  .hero-divider::after {
+    background: linear-gradient(90deg, var(--gold-deep), transparent);
+  }
+
+  .hero-divider .diamond {
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    opacity: 0.7;
+  }
+
+  /* ===== 提示条 ===== */
+  .notice {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: linear-gradient(135deg, rgba(22,22,30,0.7), rgba(18,18,24,0.5));
+    backdrop-filter: blur(24px) saturate(120%);
+    -webkit-backdrop-filter: blur(24px) saturate(120%);
+    border: 1px solid var(--border-hair);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 48px;
+    box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,0.03);
+    position: relative;
+  }
+
+  .notice::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 20px; bottom: 20px;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, transparent, var(--gold), transparent);
+    opacity: 0.6;
+  }
+
+  .notice-icon {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: linear-gradient(145deg, rgba(201,169,110,0.16), rgba(201,169,110,0.04));
+    border: 1px solid var(--border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-bright);
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: var(--serif);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  .notice-body {
+    font-size: 0.82rem;
+    color: var(--text-mid);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .notice-body strong { color: var(--gold-bright); font-weight: 500; }
+
+  /* ===== 分组标题 ===== */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 56px 0 22px;
+    padding-bottom: 16px;
+    position: relative;
+  }
+
+  .section-head::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-strong) 0%, var(--border-hair) 40%, transparent 100%);
+  }
+
+  .section-head h2 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--text);
+  }
+
+  .section-head .count {
+    font-size: 0.66rem;
+    color: var(--text-faint);
+    letter-spacing: 0.18em;
+    font-weight: 500;
+    font-family: var(--sans);
+  }
+
+  .section-head .accent-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-subtle), transparent);
+    margin-left: 8px;
+  }
+
+  /* ===== 条目卡片 ===== */
+  .entry-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .entry-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: linear-gradient(135deg, rgba(22,22,30,0.6), rgba(16,16,22,0.4));
+    backdrop-filter: blur(20px) saturate(115%);
+    -webkit-backdrop-filter: blur(20px) saturate(115%);
+    border: 1px solid var(--border-hair);
+    border-radius: var(--radius);
+    padding: 16px 22px;
+    cursor: pointer;
+    transition: all 0.4s var(--ease);
+    box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,0.025);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .entry-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--gold-bright), transparent);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+  }
+
+  .entry-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(201,169,110,0.3), transparent 40%, transparent 60%, rgba(122,168,212,0.15));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+    pointer-events: none;
+  }
+
+  .entry-card:hover {
+    background: linear-gradient(135deg, rgba(30,30,42,0.8), rgba(22,22,30,0.6));
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  .entry-card:hover::before { opacity: 1; }
+  .entry-card:hover::after { opacity: 1; }
+
+  .entry-emblem {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 1.08rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    position: relative;
+    transition: transform 0.4s var(--ease);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .entry-card:hover .entry-emblem { transform: scale(1.06); }
+
+  .entry-info { flex: 1; min-width: 0; }
+
+  .entry-name {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+
+  .entry-name.core { color: var(--gold-bright); }
+  .entry-name.sub { color: var(--blue-soft); }
+
+  .entry-desc {
+    font-size: 0.73rem;
+    color: var(--text-dim);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .entry-arrow {
+    color: var(--text-faint);
+    font-size: 1.2rem;
+    transition: all 0.35s var(--ease);
+    flex-shrink: 0;
+    font-weight: 300;
+  }
+
+  .entry-card:hover .entry-arrow {
+    color: var(--gold);
+    transform: translateX(4px);
+  }
+
+  /* ===== 详情视图 ===== */
+  .detail-topbar { padding: 36px 0 0; margin-bottom: 4px; }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(22,22,30,0.6), rgba(16,16,22,0.4));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-hair);
+    border-radius: var(--radius-sm);
+    padding: 9px 16px;
+    cursor: pointer;
+    color: var(--text-mid);
+    font-size: 0.78rem;
+    font-family: var(--sans);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    transition: all 0.35s var(--ease);
+    box-shadow: var(--shadow-card);
+  }
+
+  .back-btn:hover {
+    color: var(--gold-bright);
+    border-color: var(--border-strong);
+    background: var(--surface-hover);
+    transform: translateX(-2px);
+  }
+
+  .detail-header {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 40px 0 32px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .detail-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-strong) 0%, var(--border-hair) 50%, transparent 100%);
+  }
+
+  .detail-emblem {
+    width: 76px;
+    height: 76px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 1.65rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    position: relative;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 16px rgba(0,0,0,0.4);
+  }
+
+  .detail-emblem::after {
+    content: '';
+    position: absolute;
+    inset: -7px;
+    border-radius: 26px;
+    border: 1px solid currentColor;
+    opacity: 0.12;
+  }
+
+  .detail-header h2 {
+    font-family: var(--serif);
+    font-size: 1.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  .detail-header h2.core { color: var(--gold-bright); }
+  .detail-header h2.sub { color: var(--blue-soft); }
+
+  .detail-header .subtitle {
+    font-size: 0.76rem;
+    color: var(--text-dim);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+  }
+
+  /* ===== 一句话理解 ===== */
+  .simple-explain {
+    position: relative;
+    background: linear-gradient(135deg, rgba(201,169,110,0.07), rgba(201,169,110,0.015) 60%, transparent);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 24px 28px 24px 32px;
+    margin: 32px 0;
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    line-height: 1.85;
+    box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+
+  .simple-explain::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 18px; bottom: 18px;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold), transparent);
+  }
+
+  .simple-explain strong { color: var(--gold-bright); font-weight: 500; }
+
+  /* ===== 信息块 ===== */
+  .info-block {
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(22,22,30,0.55), rgba(16,16,22,0.35));
+    backdrop-filter: blur(20px) saturate(115%);
+    -webkit-backdrop-filter: blur(20px) saturate(115%);
+    border: 1px solid var(--border-hair);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,0.025);
+    position: relative;
+    transition: border-color 0.3s var(--ease);
+  }
+
+  .info-block:hover { border-color: var(--border-subtle); }
+
+  .info-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 16px;
+    font-family: var(--sans);
+  }
+
+  .info-label::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .info-label.gold { color: var(--gold); }
+  .info-label.gold::before { background: var(--gold); box-shadow: 0 0 10px rgba(201,169,110,0.5); }
+  .info-label.green { color: var(--green); }
+  .info-label.green::before { background: var(--green); box-shadow: 0 0 10px rgba(126,200,160,0.4); }
+  .info-label.blue { color: var(--blue); }
+  .info-label.blue::before { background: var(--blue); box-shadow: 0 0 10px rgba(122,168,212,0.4); }
+
+  .info-content {
+    font-size: 0.86rem;
+    color: var(--text-mid);
+    line-height: 1.9;
+    font-weight: 300;
+  }
+
+  .info-content strong { color: var(--text); font-weight: 500; }
+  .info-content .hl { color: var(--gold-bright); font-weight: 500; }
+
+  .key-cards { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .key-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 0.77rem;
+    padding: 6px 13px 6px 6px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border-hair);
+    color: var(--text-mid);
+    line-height: 1.4;
+    transition: all 0.3s var(--ease);
+    font-weight: 400;
+  }
+
+  .key-card:hover {
+    border-color: var(--border-subtle);
+    background: rgba(255,255,255,0.04);
+    transform: translateY(-1px);
+  }
+
+  .key-card.must {
+    border-color: var(--border-strong);
+    background: linear-gradient(135deg, rgba(201,169,110,0.09), rgba(201,169,110,0.015));
+    color: var(--gold-bright);
+    font-weight: 500;
+  }
+
+  .op-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #fff;
+    font-family: var(--serif);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+
+  .c1 { background: linear-gradient(135deg, #c85a58, #8a3634); }
+  .c2 { background: linear-gradient(135deg, #6a9ad4, #3a5a8a); }
+  .c3 { background: linear-gradient(135deg, #98b868, #66803e); }
+  .c4 { background: linear-gradient(135deg, #8a6aa8, #5a3a78); }
+  .c5 { background: linear-gradient(135deg, #d09888, #985850); }
+  .c6 { background: linear-gradient(135deg, #5ab0c4, #3a7a8e); }
+  .c7 { background: linear-gradient(135deg, #e89850, #a86820); }
+  .c8 { background: linear-gradient(135deg, #808090, #4a4a5a); }
+  .c9 { background: linear-gradient(135deg, #c4a868, #8a7038); }
+  .c10 { background: linear-gradient(135deg, #a880c8, #704898); }
+
+  .step-list { padding-left: 0; list-style: none; }
+  .step-list li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+  .step-list li:last-child { margin-bottom: 0; }
+  .step-list li::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 11px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+  .step-list li strong { color: var(--text); font-weight: 500; }
+
+  .warn-box {
+    margin-top: 8px;
+    padding: 18px 22px;
+    background: linear-gradient(135deg, rgba(224,130,112,0.06), rgba(224,130,112,0.01));
+    border: 1px solid rgba(224,130,112,0.18);
+    border-radius: var(--radius-sm);
+    font-size: 0.83rem;
+    color: var(--text-mid);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+  .warn-box strong { color: var(--red); font-weight: 500; }
+
+  /* ===== 联动区块 ===== */
+  .synergy-block {
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(201,169,110,0.045), rgba(122,168,212,0.02) 50%, rgba(16,16,22,0.4));
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 26px 28px;
+    box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255,255,255,0.03);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .synergy-block::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold) 40%, var(--blue) 100%);
+    opacity: 0.7;
+  }
+
+  .synergy-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .synergy-head .badge {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(201,169,110,0.12);
+    border: 1px solid var(--border-strong);
+    color: var(--gold-bright);
+    font-weight: 600;
+    font-family: var(--sans);
+  }
+
+  .synergy-head h3 {
+    font-family: var(--serif);
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.06em;
+  }
+
+  .synergy-row { margin-bottom: 20px; }
+  .synergy-row:last-child { margin-bottom: 0; }
+
+  .synergy-row .row-label {
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .synergy-row .row-label::before {
+    content: '';
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(201,169,110,0.4);
+  }
+
+  .synergy-row .row-body {
+    font-size: 0.84rem;
+    color: var(--text-mid);
+    line-height: 1.85;
+    padding-left: 13px;
+    font-weight: 300;
+  }
+  .synergy-row .row-body strong { color: var(--text); font-weight: 500; }
+  .synergy-row .row-body .hl { color: var(--gold-bright); font-weight: 500; }
+
+  .sub-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding-left: 13px;
+  }
+
+  .sub-tag {
+    font-size: 0.75rem;
+    padding: 4px 13px;
+    border-radius: 20px;
+    background: rgba(122,168,212,0.08);
+    border: 1px solid rgba(122,168,212,0.2);
+    color: var(--blue-soft);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .final-config {
+    font-family: var(--serif);
+    font-size: 0.92rem;
+    color: var(--gold-bright);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(201,169,110,0.06), rgba(201,169,110,0.01));
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-sm);
+    line-height: 1.8;
+  }
+
+  /* ===== 页脚 ===== */
+  footer {
+    text-align: center;
+    margin-top: 88px;
+    padding-top: 32px;
+    position: relative;
+    font-size: 0.7rem;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+    font-weight: 300;
+    line-height: 1.9;
+  }
+
+  footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+  }
+
+  /* ===== 徽记配色 ===== */
+  .em-yan { background: linear-gradient(145deg, rgba(224,122,95,0.16), rgba(224,122,95,0.03)); color: #e89078; border: 1px solid rgba(224,122,95,0.3); }
+  .em-ursus { background: linear-gradient(145deg, rgba(176,176,192,0.14), rgba(176,176,192,0.03)); color: #c0c0d0; border: 1px solid rgba(176,176,192,0.25); }
+  .em-iberia { background: linear-gradient(145deg, rgba(122,168,212,0.16), rgba(122,168,212,0.03)); color: #8ab8e0; border: 1px solid rgba(122,168,212,0.3); }
+  .em-leithan { background: linear-gradient(145deg, rgba(184,144,216,0.16), rgba(184,144,216,0.03)); color: #c0a0e0; border: 1px solid rgba(184,144,216,0.3); }
+  .em-siracusa { background: linear-gradient(145deg, rgba(240,168,96,0.16), rgba(240,168,96,0.03)); color: #e0a060; border: 1px solid rgba(240,168,96,0.3); }
+  .em-sargon { background: linear-gradient(145deg, rgba(212,184,120,0.18), rgba(212,184,120,0.03)); color: #d4b878; border: 1px solid rgba(212,184,120,0.35); }
+  .em-kjerag { background: linear-gradient(145deg, rgba(126,200,227,0.16), rgba(126,200,227,0.03)); color: #7ec8e3; border: 1px solid rgba(126,200,227,0.3); }
+  .em-kazimierz { background: linear-gradient(145deg, rgba(201,184,150,0.16), rgba(201,184,150,0.03)); color: #c9b896; border: 1px solid rgba(201,184,150,0.3); }
+  .em-aegir { background: linear-gradient(145deg, rgba(95,184,201,0.16), rgba(95,184,201,0.03)); color: #5fb8c9; border: 1px solid rgba(95,184,201,0.3); }
+  .em-victoria { background: linear-gradient(145deg, rgba(168,124,201,0.16), rgba(168,124,201,0.03)); color: #a87cc9; border: 1px solid rgba(168,124,201,0.3); }
+  .em-sub { background: linear-gradient(145deg, rgba(122,168,212,0.1), rgba(122,168,212,0.02)); color: var(--blue); border: 1px solid rgba(122,168,212,0.22); }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 640px) {
+    .container { padding: 0 18px; }
+    .hero { padding: 64px 0 40px; }
+    .hero h1 { font-size: 1.75rem; }
+    .detail-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .detail-emblem { width: 58px; height: 58px; font-size: 1.25rem; border-radius: 16px; }
+    .detail-header h2 { font-size: 1.45rem; }
+    .info-block { padding: 20px 18px; }
+    .synergy-block { padding: 22px 18px; }
+    .entry-card { padding: 14px 16px; gap: 13px; }
+    .entry-emblem { width: 40px; height: 40px; font-size: 0.94rem; border-radius: 10px; }
+    .notice { padding: 16px 18px; }
+  }
+
+/* Embedded portraits and formation diagrams */
+.key-cards {display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:12px}
+.key-card {width:100%;padding:10px;gap:13px;font-size:.9rem;align-items:center}
+.portrait-button {border:0;padding:0;background:transparent;cursor:zoom-in;flex-shrink:0;border-radius:10px;color:inherit;font:inherit}
+.portrait-button:focus-visible,.formation-button:focus-visible,.formation-select:focus-visible,.modal-close:focus-visible {outline:2px solid var(--gold-bright);outline-offset:4px}
+.op-avatar {display:block;width:70px;height:70px;object-fit:cover;border-radius:10px;border:1px solid var(--border-strong);background:#20212b}
+.op-card-body {display:flex;flex-direction:column;gap:4px;min-width:0}
+.op-card-name {font-size:1rem;font-weight:600;color:var(--text)}
+.must .op-card-name {color:var(--gold-bright)}
+.op-card-note {font-size:.875rem;font-weight:400;line-height:1.6;color:var(--text-mid)}
+.op-card-name small {font-size:.875rem;color:var(--gold);font-weight:400;margin-left:8px}
+.inline-operator {display:inline-flex;align-items:center;gap:5px;vertical-align:middle;white-space:nowrap}
+.inline-operator img {width:26px;height:26px;object-fit:cover;border-radius:5px;background:#20212b;border:1px solid var(--border-strong)}
+.formation-panel {margin:0 0 24px;padding:24px;background:linear-gradient(135deg,rgba(201,169,110,.06),rgba(122,168,212,.03));border:1px solid var(--border-strong);border-radius:14px}
+.formation-toolbar {display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.formation-title {font-family:var(--serif);font-size:1.1rem;font-weight:600;color:var(--gold-bright)}
+.formation-kicker {font-size:.875rem;color:var(--text-mid);margin:2px 0 0}
+.formation-actions {display:flex;gap:8px;flex-wrap:wrap}
+.formation-button {font-family:var(--sans);font-size:.875rem;border:1px solid var(--border-strong);padding:8px 13px;border-radius:8px;background:var(--bg-soft);color:var(--gold-bright);cursor:pointer;min-height:40px}
+.formation-button:hover {background:var(--gold-glow);border-color:var(--gold)}
+.formation-scroll {overflow-x:auto;border-radius:12px;background:#10121a;border:1px solid rgba(201,169,110,.15);scrollbar-color:#66563c #10121a}
+.formation-svg {display:block;width:100%;height:auto;min-width:610px}
+.formation-note {font-size:.875rem;color:var(--text-mid);margin-top:12px;line-height:1.8}
+.formation-note strong {color:var(--gold-bright);font-weight:500}
+.formation-disclaimer {font-size:.875rem;color:var(--text-mid);margin:8px 0 0}
+.formation-selector {display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.formation-selector label {color:var(--text-mid);font-size:.9rem}
+.formation-select {max-width:100%;font-family:var(--sans);font-size:1rem;appearance:none;border:1px solid var(--border-strong);border-radius:9px;background:#181922 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%23c9a96e' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 12px center/16px;color:var(--text);padding:11px 42px 11px 14px;min-width:215px}
+.overview-caption {font-size:.9rem;color:var(--text-mid);margin-bottom:18px}
+.formation-overview {margin:30px 0 40px}
+.formation-overview summary {font-family:var(--serif);font-size:1.15rem;color:var(--gold-bright);cursor:pointer;padding:18px 22px;border:1px solid var(--border-strong);border-radius:12px;background:var(--surface-solid)}
+.formation-overview[open] summary {margin-bottom:20px}
+.asset-credit {font-size:.875rem;color:var(--text-mid);line-height:1.8}
+.asset-credit a {color:var(--gold);text-underline-offset:3px}
+.asset-credit small {font-size:inherit}
+.image-modal {width:min(1000px,calc(100vw - 24px));max-height:calc(100dvh - 24px);background:#10121a;color:var(--text);border:1px solid var(--border-strong);border-radius:16px;padding:24px;margin:auto;overflow:auto;box-shadow:0 24px 120px #000}
+.image-modal::backdrop {background:rgba(0,0,0,.82);backdrop-filter:blur(6px)}
+.modal-bar {display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.modal-bar h2 {font-family:var(--serif);font-size:1.2rem;color:var(--gold-bright)}
+.modal-close {border:1px solid var(--border-strong);background:#20212b;color:var(--text);font-size:.9rem;border-radius:8px;min-height:40px;min-width:60px;cursor:pointer;padding:6px 12px}
+.modal-portrait {display:block;width:min(360px,100%);height:auto;margin:0 auto 16px;border-radius:16px;border:1px solid var(--border-strong)}
+.modal-caption {font-size:1rem;color:var(--text-mid);text-align:center}
+.entry-portraits {display:flex;align-items:center;margin-left:auto;padding-left:4px}
+.entry-portraits img {width:37px;height:37px;object-fit:cover;border-radius:50%;border:2px solid #14141c;margin-left:-8px;background:#20212b}
+.entry-card:focus-visible {outline:2px solid var(--gold-bright);outline-offset:4px}
+@media(max-width:640px){.key-cards{grid-template-columns:1fr}.formation-panel{padding:16px}.formation-toolbar{align-items:flex-start}.formation-actions{width:100%}.formation-button{flex:1}.op-avatar{width:64px;height:64px}.image-modal{padding:16px}.entry-portraits img{width:30px;height:30px}.entry-portraits img:nth-child(n+3){display:none}.formation-disclaimer{font-size:.875rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="container">
+
+  <div id="listView">
+    <div class="hero">
+      <div class="hero-eyebrow">Arknights · Guard Protocol</div>
+      <h1>卫戍协议 · 盟约指南</h1>
+      <p class="hero-sub">2026 年 11 月版本 · 核心盟约与附加盟约详解</p>
+      <div class="hero-divider"><span class="diamond"></span></div>
+    </div>
+
+    <div class="notice">
+      <div class="notice-icon">i</div>
+      <div class="notice-body">
+        <strong>写给第一次玩的你：</strong>这个模式里干员面板不重要，<strong>叠层才重要</strong>。每个盟约的详情页按“在干什么 → 谁叠层 → 怎么叠 → <strong>副盟约怎么联动 → 毕业配置</strong> → 站哪里 → 几本发力”展开，照着做就行。
+      </div>
+    </div>
+
+    <details class="formation-overview" open><summary>总体站位图 · 22 套关系示意</summary><p class="overview-caption">选择盟约查看头像站位图，可放大查看或保存图片。</p><div class="formation-selector"><label for="formationSelect">选择盟约</label><select class="formation-select" id="formationSelect" onchange="updateOverview(this.value)"></select></div><div id="formationOverview"></div></details>
+    <div class="section-head">
+      <h2>核心盟约</h2>
+      <span class="count">CORE · 10</span>
+      <span class="accent-line"></span>
+    </div>
+    <div class="entry-list" id="coreEntries"></div>
+
+    <div class="section-head">
+      <h2>附加盟约</h2>
+      <span class="count">SUB · 12</span>
+      <span class="accent-line"></span>
+    </div>
+    <div class="entry-list" id="subEntries"></div>
+
+    <footer>
+      基于 2026 年 11 月 NGA 解包数据与社区讨论整理<br>
+      拉特兰已移除 · 干员头像联网加载 · 站位图为相对关系示意 · 实战以游戏内为准
+    <p class="asset-credit">干员图像版权归鹰角网络及原权利人所有。图片来源：<a href="https://github.com/yuanyan3060/ArknightsGameResource" target="_blank" rel="noopener noreferrer">游戏素材整理</a>；杜遥夜肖像来源：<a href="https://prts.wiki/w/文件:卫戍协议：盟约_策略发起人_杜遥夜.png" target="_blank" rel="noopener noreferrer">PRTS</a>。站位按本文描述绘制，不对应固定地图坐标。</p></footer>
+  </div>
+
+  <div id="detailView">
+    <div class="detail-topbar">
+      <button class="back-btn" onclick="showList()">返回列表</button>
+    </div>
+    <div id="detailContent"></div>
+  </div>
+
+</div>
+
+<dialog id="imageModal" class="image-modal" aria-labelledby="modalTitle"><div class="modal-bar"><h2 id="modalTitle"></h2><button class="modal-close" type="button" onclick="closeImageModal()">关闭</button></div><div id="modalBody"></div></dialog>
+<script>
+const cores = [
+  {
+    id: 'sargon', name: '萨尔贡', emblem: '萨', cls: 'em-sargon', titleCls: 'core',
+    sub: '开技能叠攻速 · 过渡最平滑 · 新手首选',
+    simple: '萨尔贡干员每次<strong>开启技能</strong>，全队萨尔贡攻速就会涨一点。6 个不同萨尔贡干员时，开技能还会在地上制造流沙，让敌人走不动、持续掉血。',
+    effect: '萨尔贡干员开启技能时，全体萨尔贡攻速提升（有上限），持续一段时间。6 人时额外制造流沙地面，敌人迟钝 + 周期法伤 + 短暂束缚；技能持续期间流沙效果翻倍。',
+    ops: [
+      { n: '莎草', c: 'c3', note: '2本 · 奶妈 + 开技能叠层。前期可以抓两个不合三', must: true },
+      { n: '至简', c: 'c2', note: '3本 · 拿两个上场可以集火' },
+      { n: '菲莱', c: 'c3', note: '3-4本 · 叠层' },
+      { n: '异客', c: 'c4', note: '5本 · 叠层需要同一行有 3 个人', must: true },
+      { n: '华法林', c: 'c5', note: '4本 · 放在异客身后一格' }
+    ],
+    stack: '让萨尔贡干员<strong>不停开技能</strong>。莎草、菲莱、异客都是开技能叠层。异客需要同一行站 3 个人才触发，所以站位要排成一排。',
+    synergy: {
+      subs: ['精准', '迅捷', '灵巧'],
+      logic: '萨尔贡的叠层条件是“开技能”，所以副盟约要围绕<strong>两个方向</strong>：一是让技能开得更快（<strong>迅捷</strong>回技力、<strong>灵巧</strong>加攻速缩短技能周期），二是让远程输出更疼（<strong>精准</strong>无视双抗）。缇缇自带精准、异客是远程吃精准，这两条线天然重合。',
+      combo: '<strong>莎草</strong>（前期双抓不合三，奶+叠层）+ <strong>菲莱</strong>（开技能叠层）+ <strong>异客</strong>（同排3人，叠层质变）+ <strong>华法林</strong>（站异客身后，加速开技能）+ <strong>缇缇</strong>（睡眠/晕眩双叠萨尔贡+精准）+ <strong>陨星</strong>（迅捷叠层）+ <strong>灰喉</strong>（精准叠层）+ <strong>霜叶</strong>（灵巧叠层）。',
+      final: '6 萨尔贡 + 3 精准 + 3 迅捷 + 3 灵巧。异客、莎草、菲莱排同一行满足“同排3人”；华法林站异客身后；缇缇放后排靠睡眠/晕眩触发双叠；陨星负责迅捷技能循环。'
+    },
+    position: '10 回合左右的理想站位（从右到左，箭头是攻击方向）：<br><br><strong>至简 / 华法林 → 异客 → 菲莱 → 锡人 → 莱恩哈特 → 莎草 → 暴雨 → 森蚺</strong><br><br>异客在中段，前后都有人，满足“同一行 3 人”。华法林在异客旁边/身后，加速异客开技能。莎草靠后提供奶量。',
+    leveling: '1-2 本有啥抓啥凑对，优先莎草 + 狮蝎 + 暴雨。3-4 本补至简、菲莱、森蚺。5 本找异客，这是叠层质变点。6 本补佩佩或娜仁图亚。',
+    tips: [
+      '萨尔贡是<strong>最推荐新手第一个玩的</strong>，过渡最平滑，不需要死等某一张卡。',
+      '莎草抓两个不合三，前期奶量和叠层都靠她。',
+      '异客没来之前，靠莎草和菲莱慢慢叠，不要急。',
+      '5 本异客来了之后，把异客和莎草/菲莱排在同一行。'
+    ]
+  },
+  {
+    id: 'iberia', name: '伊比利亚', emblem: '伊', cls: 'em-iberia', titleCls: 'core',
+    sub: '三本停住 · 蓝毒打 BOSS · 自带聚合不容易死',
+    simple: '伊比利亚的核心是<strong>卡在 3 本</strong>，把低费伊比利亚干员抓齐。蓝毒把盟约层数变成自己的攻击力，负责打 BOSS；旅骨负责清小怪。因为自带聚合（回血），道中不容易暴毙。',
+    effect: '伊比利亚干员/召唤物造成伤害时附加持续法伤，可叠 10 层。6 人：持续法伤翻倍，减速至多 -80%，概率弹射。',
+    ops: [
+      { n: '深靛', c: 'c6', note: '1本 · 休整期叠层。三本流里不优先抓', must: true },
+      { n: '蓝毒', c: 'c2', note: '2本 · BOSS 主输出', must: true },
+      { n: '旅骨', c: 'c7', note: '道中清怪核心', must: true },
+      { n: '棘刺', c: 'c2', note: '5本 · 休整期按售出价格叠层' }
+    ],
+    stack: '深靛在休整期叠层，但三本流主要靠<strong>把其他伊比利亚干员抓齐后自然叠上去的层数</strong>。蓝毒吃层数转化成攻击力。',
+    synergy: {
+      subs: ['精准', '聚合', '迅捷'],
+      logic: '伊比利亚自带聚合，生存不用额外投资，所以副盟约可以把预算全部投给输出和技能循环。<strong>蓝毒是狙击</strong>，精准的“无视30%双抗”对她收益极高；<strong>迅捷</strong>回技力让蓝毒技能转得更快，BOSS 战输出窗口更长。',
+      combo: '<strong>蓝毒</strong>（BOSS 主输出，吃精准） + <strong>旅骨</strong>（道中清怪） + <strong>棘刺</strong>（高本补充） + <strong>深靛</strong>（休整期叠层，可选） + <strong>灰喉</strong>（精准叠层） + <strong>陨星</strong>（迅捷叠层）。',
+      final: '6 伊比利亚 + 3 精准 + 3 迅捷（聚合靠本家自带 2~3 层即可）。卡 3 本把低费伊比利亚抓齐精锐化，蓝毒放安全高台，灰喉/陨星补精准和迅捷。'
+    },
+    position: '站位要求不高，关键是<strong>蓝毒要活着输出</strong>。蓝毒放安全高台或后排，旅骨放能打到怪的位置。自带聚合，不需要专门带很多奶。',
+    leveling: '<strong>罗素策略，卡在 3 本，不要升本。</strong>把 3 本以下的伊比利亚干员全部抓齐（除了深靛），精锐化之后再考虑升 4 本。',
+    tips: [
+      '本版本<strong>最适合新手的兜底打法之一</strong>，下限很高。',
+      '蓝毒是打 BOSS 的主力，道中靠旅骨。',
+      '自带两个聚合，生存有保障。',
+      '如果队友也需要伊比利亚干员，提前沟通，避免抢卡。'
+    ]
+  },
+  {
+    id: 'leithan', name: '莱塔尼亚', emblem: '莱', cls: 'em-leithan', titleCls: 'core',
+    sub: '复奏莱 · 对子碰高本 · 前中后期都强',
+    simple: '莱塔尼亚靠<strong>击杀敌人</strong>和<strong>休整期</strong>叠层。社区推荐的“复奏莱”玩法是选复奏策略，前期用对子快速碰出高本干员，配合精准/奥术小盟约，前中后期都能打。',
+    effect: '干员和召唤物攻击力提升，击杀召唤“小节”。6 人：概率召唤更强的“乐部”，攻速提升，召唤物上限翻倍。',
+    ops: [
+      { n: '地灵', c: 'c5', note: '1本 · 攻击范围内击杀叠层', must: true },
+      { n: '折光', c: 'c2', note: '2本 · 休整期叠层，效率更高', must: true },
+      { n: '纯烬艾雅法拉', c: 'c5', note: '5本 · 击杀叠莱塔尼亚 + 聚合' }
+    ],
+    stack: '地灵靠攻击范围内击杀叠层，折光靠休整期叠层。前期地灵+折光就能开始运转。',
+    synergy: {
+      subs: ['精准', '奥术', '聚合'],
+      logic: '莱塔尼亚本家叠层效率中规中矩，真正让它滚起来的是<strong>霍尔海雅（雅雅）</strong>——她带 1 技能，开技能同时叠<strong>精准和奥术</strong>，是双重叠层引擎；<strong>空弦</strong>在休整期给身前干员的所有已激活盟约 +3，进一步加速精准；<strong>华法林</strong>放雅雅身后缩短技能周期。聚合补的是莱塔尼亚召唤物体系最缺的前排——层数没起来之前，没有聚合的召唤物“战力堪比滚木”，层数高了才可以不要前排。',
+      combo: '<strong>黑键</strong> + <strong>纯烬艾雅法拉（奶羊）</strong>（莱塔尼亚 + 聚合） + <strong>霍尔海雅（1技能）</strong>（精准 + 奥术双叠核心） + <strong>空弦</strong>（万能叠层，放雅雅身前） + <strong>华法林</strong>（站雅雅身后，加速技能） + <strong>卡达</strong>（奥术叠层） + <strong>逻各斯</strong>（精准/奥术输出终端）。',
+      final: '6 莱塔尼亚 + 3 精准 + 3 奥术 + 2/3 聚合。雅雅站华法林身前、空弦身前；奶羊后排；逻各斯吃精准奥术双加成打终端。'
+    },
+    position: '地灵放在能打到最多怪的位置，折光随便放（休整期就叠）。奶羊的攻击范围要覆盖战场。',
+    leveling: '复奏策略：2 本找对子，升 3 碰，精准奥术叠层，升 4 碰奶羊。',
+    tips: [
+      '复奏莱塔尼亚被社区称为“轮椅”，前中后期都强。',
+      '搭配精准、奥术小盟约，输出和叠层兼顾。',
+      '如果抓了华法林和奶羊凑聚合，<strong>注意聚合叠太高会导致莱塔尼亚召唤的小怪死不掉，卡住漏怪</strong>。'
+    ],
+    warn: '聚合层数太高时，莱塔尼亚的召唤物可能杀不死，反而卡住位置。'
+  },
+  {
+    id: 'kazimierz', name: '卡西米尔', emblem: '卡', cls: 'em-kazimierz', titleCls: 'core',
+    sub: '反复部署叠层 · 站位不讲究 · 操作简单',
+    simple: '卡西米尔的核心就一句话：<strong>反复部署干员</strong>。每次部署，卡西米尔干员攻击力就涨一点。站位不用太讲究，适合不想动脑的新手。',
+    effect: '每次部署干员时卡西米尔干员攻击力提升，持续至战斗结束。6 人：地面干员被击倒时召唤整备区最右侧卡西米尔干员；开技能/部署后 30 秒攻击附带真伤。',
+    ops: [
+      { n: '野鬃', c: 'c5', note: '1本 · 部署时叠层', must: true },
+      { n: '砾', c: 'c3', note: '部署叠层，2 本就能拿' },
+      { n: '远牙', c: 'c2', note: '4本 · 输出' },
+      { n: '玛恩纳', c: 'c4', note: '4本 · 叠层后加攻击力和生命' }
+    ],
+    stack: '野鬃和砾都是部署时叠层。不停地上场、撤退、再上场，层数就上去了。',
+    synergy: {
+      subs: ['突袭', '不屈', '精准'],
+      logic: '卡西米尔的“反复部署”天然吃<strong>突袭</strong>——突袭干员 10 秒没攻击就自动飞向敌人，等于白送一次再部署，同时叠突袭层数；<strong>不屈</strong>给地面干员复活容错，反复部署的节奏不会被打断；<strong>精准</strong>给远牙这类远程输出补双抗穿透。',
+      combo: '<strong>野鬃</strong>（部署叠层核心） + <strong>砾</strong>（低本部署叠层） + <strong>远牙</strong>（精准远程输出） + <strong>玛恩纳</strong>（叠层后加攻加血） + <strong>赫德雷</strong>（突袭叠层） + <strong>摆渡人</strong>（坚守/不屈容错） + <strong>灰喉</strong>（精准叠层）。',
+      final: '6 卡西米尔 + 3 突袭 + 3 不屈 + 3 精准。野鬃和砾反复上下场叠卡西米尔；赫德雷自动飞叠突袭；摆渡人给不屈；远牙吃精准打输出。'
+    },
+    position: '站位不讲究。谁方便反复部署就放谁。远牙和玛恩纳放在能打到怪的位置输出。',
+    leveling: '升本节奏比较自由。2 本抓砾，3 本找瑕光，4 本找远牙。',
+    tips: [
+      '适合新手，操作简单，道中战力不错。',
+      '上限不如莱塔尼亚和伊比利亚，但胜在稳定、不费脑。',
+      '如果 Ban 位把不屈和突袭都 Ban 了，卡西米尔会很难受。'
+    ]
+  },
+  {
+    id: 'victoria', name: '维多利亚', emblem: '维', cls: 'em-victoria', titleCls: 'core',
+    sub: '装备驱动 · 需要杰西卡 · 不建议首玩',
+    simple: '维多利亚靠<strong>给干员带装备</strong>叠层。场上带装备的维干员越多，层数越高。核心是涤火杰西卡，她每回合给道具。没有杰西卡，维多利亚很难玩。',
+    effect: '携带装备的维多利亚干员造成伤害提升。每 25 层获得一件维式重锤。6 人：携带装备的维干员攻击力 +80%。',
+    ops: [
+      { n: '慕斯', c: 'c5', note: '1本 · 休整期叠层', must: true },
+      { n: '涤火杰西卡', c: 'c10', note: '4本 · 核心。场上每有一名带装备的干员就叠层', must: true },
+      { n: '白铁', c: 'c7', note: '4本 · 工匠，把装备变精锐' },
+      { n: '维娜', c: 'c9', note: '5本 · 输出' }
+    ],
+    stack: '慕斯低本叠层。杰西卡是真正叠层核心：场上带装备的人越多，她叠得越快。',
+    synergy: {
+      subs: ['灵巧', '精准', '远见'],
+      logic: '维多利亚的装备经济天然和<strong>灵巧</strong>（花费叠层）联动——杰西卡给道具、白铁精锐化都要花钱，花钱同时叠灵巧，形成“越花越强”的循环。这是当前公认上限最高的<strong>灵巧维</strong>路线。<strong>精准</strong>吃维多利亚三维/六维的独立乘区，收益极高；<strong>远见</strong>补经济，让杰西卡的道具循环更顺。',
+      combo: '<strong>慕斯</strong>（低本休整期叠层） + <strong>涤火杰西卡</strong>（核心，场上带装备越多叠越快） + <strong>白铁</strong>（工匠精锐化装备） + <strong>维娜</strong>（高本输出） + <strong>霜叶</strong>（灵巧叠层） + <strong>空弦</strong> + <strong>断崖</strong>（灵巧/精准左脚踩右脚） + <strong>淬羽赫默</strong>（助力，整备区生效）。',
+      final: '6 维多利亚 + 3 灵巧 + 3 精准 + 助力。杰西卡站安全位，场上 8 人尽量都带装备；空弦和断崖放一起互相触发；淬羽赫默放整备区不占部署位。'
+    },
+    position: '杰西卡放在安全位置。带装备的干员尽量分散在场上。',
+    leveling: '前期先用 <strong>3 坚守</strong>过渡，不要硬等维。3-4 本找杰西卡。找到杰西卡后给场上 8 个人都带装备。',
+    tips: [
+      '维多利亚<strong>极度依赖杰西卡</strong>。如果 4 本 D 不到杰西卡，考虑转体系。',
+      '双工匠（杰西卡+白铁）会占部署位，站位比上版本更紧。',
+      '后期上限很高，能养出两万血巨兽。'
+    ],
+    warn: '不建议新手第一把玩维多利亚。杰西卡不来整局崩盘的风险太高。'
+  },
+  {
+    id: 'ursus', name: '乌萨斯', emblem: '乌', cls: 'em-ursus', titleCls: 'core',
+    sub: '击杀叠临时层数 · 折桠转化 · 滚雪球',
+    simple: '乌萨斯靠<strong>击杀敌人</strong>叠临时层数，然后靠折桠在休整期把临时层数变成永久层数。简单说：多杀人，折桠帮你存下来。',
+    effect: '乌萨斯干员攻击力和生命值提升，击倒单位叠临时层数。6 人：受伤转生命流失；阻挡时每秒法伤；击杀临时层数翻倍。',
+    ops: [
+      { n: '烈夏', c: 'c7', note: '1本 · 战斗开始时临时层数 +4/8', must: true },
+      { n: '折桠', c: 'c2', note: '1本 · 休整期转化临时层数为永久层数', must: true },
+      { n: '怒潮凛冬', c: 'c1', note: '5本 · 乌萨斯 + 奇迹' },
+      { n: '塔露拉', c: 'c9', note: '6本 · 核心输出' }
+    ],
+    stack: '烈夏开局给临时层数，乌萨斯干员击杀继续叠。休整期折桠把临时层数存下来。',
+    synergy: {
+      subs: ['奥术', '迅捷', '奇迹'],
+      logic: '乌萨斯的高本核心卡自带副盟约标签，等于官方给了路线：<strong>塔露拉带奥术</strong>、<strong>冻河带迅捷</strong>、<strong>怒潮凛冬带奇迹</strong>。奥术增伤配合乌萨斯的高攻击面板；迅捷让技能循环更快，击杀效率更高；奇迹补经济，帮你在高本找塔露拉。',
+      combo: '<strong>烈夏</strong>（开局临时层数） + <strong>折桠</strong>（休整期转化永久层数，最关键） + <strong>怒潮凛冬</strong>（乌萨斯 + 奇迹） + <strong>塔露拉</strong>（6本核心输出） + <strong>卡达</strong>（奥术叠层） + <strong>陨星</strong>（迅捷叠层）。',
+      final: '6 乌萨斯 + 3 奥术 + 3 迅捷 + 奇迹。折桠放安全位保转化；乌萨斯干员尽量站能拿人头的位置；塔露拉吃奥术增伤打输出。'
+    },
+    position: '乌萨斯干员尽量放在能拿到人头的位置。折桠放安全位置。',
+    leveling: '1 本同时抓烈夏和折桠。5 本找怒潮凛冬，6 本找塔露拉。',
+    tips: [
+      '折桠是<strong>最关键的一张卡</strong>，没有折桠临时层数存不下来。',
+      '适合喜欢滚雪球的玩家。',
+      '本版本乌萨斯强度中等偏上。'
+    ]
+  },
+  {
+    id: 'kjerag', name: '谢拉格', emblem: '谢', cls: 'em-kjerag', titleCls: 'core',
+    sub: '3 谢当插件用 · 不一定要 6 · 润滑体系',
+    simple: '谢拉格<strong>不推荐凑 6</strong>。社区主流玩法是把谢拉格当成“3 人小插件”，配合精准、奥术、灵巧等小盟约，让整个队伍更顺滑。',
+    effect: '谢拉格干员造成伤害提升，对寒冷/冻结敌人额外提升。6 人：召唤雪山巨人（不同来源描述有差异）。',
+    ops: [
+      { n: '角峰', c: 'c8', note: '1本 · 首次伤害使敌人寒冷', must: true },
+      { n: '雪猎', c: 'c6', note: '2本 · 获得时叠谢拉格 + 精准', must: true },
+      { n: '初雪', c: 'c3', note: '3本 · 冻结触发叠层' },
+      { n: '灵知', c: 'c2', note: '控制/寒冷' }
+    ],
+    stack: '角峰让敌人寒冷，雪猎获得时叠谢拉格+精准，初雪在敌人冻结时叠层。',
+    synergy: {
+      subs: ['精准', '灵巧', '坚守'],
+      logic: '谢拉格只带 3 人当插件，所以副盟约要选<strong>能独立运转、不占本家名额</strong>的。雪猎自带精准，空弦/断崖在休整期给身前干员所有已激活盟约 +3，是万能叠层枢纽；灵巧加攻速让冻结触发更频繁；坚守（角峰）给前排兜底——这就是社区说的“铃兰谢拉格”玩法。',
+      combo: '<strong>角峰</strong>（谢拉格 + 坚守，摆前排） + <strong>雪猎</strong>（谢拉格 + 精准，上两个狙击镜） + <strong>灵知</strong>（冻结控制） + <strong>空弦</strong>（后排万能叠层） + <strong>灰喉</strong>（精准叠层） + <strong>霜叶</strong>（灵巧叠层）。',
+      final: '3 谢拉格 + 3 精准 + 2 灵巧 + 3 坚守。角峰加一坚守摆前面；隔一点距离空弦和雪猎摆后面；雪猎上两个狙击镜；再上格雷伊云际，开三精准二灵巧。'
+    },
+    position: '铃兰谢拉格兜飞机图：<strong>角峰加一坚守摆前面</strong>，隔一点距离<strong>空弦和雪猎摆后面</strong>，雪猎上两个狙击镜，再上格雷伊云际，开三精准二灵巧。',
+    leveling: '前期三坚守起手，道中找灵知。如果来了灵知 + 异银，再转 3 谢。',
+    tips: [
+      '当成精准、奥术一个档次的小盟约来用，哪儿哪儿都能润滑。',
+      '3 谢 3 萨、3 谢 3 莱、3 谢 3 乌玩下来都很爽。',
+      '6 谢的雪山巨人被部分玩家认为“内鬼”。'
+    ],
+    warn: '谢拉格被部分玩家认为是本版本“被砍最多”的体系之一。'
+  },
+  {
+    id: 'aegir', name: '阿戈尔', emblem: '阿', cls: 'em-aegir', titleCls: 'core',
+    sub: '吞噬身前干员 · 有上手难度 · 不建议首玩',
+    simple: '阿戈尔干员会<strong>吃掉身前的一格干员</strong>，获得那个干员的攻击力和阻挡数，同时叠层。站位很重要：把“要被吃掉的工具人”放在阿戈尔前面。',
+    effect: '阿戈尔干员生命值提升。战斗开始时吞噬身前一格干员，获得其攻击力和阻挡数，叠层。6 人：前 3 名阿戈尔首次被击倒时立刻复活。',
+    ops: [
+      { n: '幽灵鲨', c: 'c6', note: '1本 · 部署时叠层', must: true },
+      { n: '水月', c: 'c4', note: '4本 · 叠层后让周围干员造成伤害时减速' },
+      { n: '红蒂', c: 'c1', note: '6本 · 叠层' }
+    ],
+    stack: '幽灵鲨部署时叠层。更核心的是<strong>让阿戈尔吞噬身前的工具人</strong>，既加属性又叠层。',
+    synergy: {
+      subs: ['不屈', '聚合', '灵巧'],
+      logic: '阿戈尔的 6 人效果是“前 3 名首次被击倒时立刻复活”，和<strong>不屈</strong>的复活机制叠加，容错极高。吞噬身前工具人需要低费祭品，<strong>摆渡人</strong>（坚守/不屈）这类低本干员正好当祭品兼容错。<strong>聚合</strong>补回血，<strong>灵巧</strong>加攻速让幽灵鲨部署叠层更快。',
+      combo: '<strong>幽灵鲨</strong>（部署叠层） + <strong>水月</strong>（叠层后周围减速） + <strong>红蒂</strong>（高本叠层） + <strong>摆渡人</strong>（不屈/坚守，当祭品兼容错） + <strong>褐果</strong>（聚合叠层） + <strong>霜叶</strong>（灵巧叠层）。',
+      final: '6 阿戈尔 + 3 不屈 + 2 聚合 + 灵巧。把低费工具人（摆渡人等）放在阿戈尔正前方一格当祭品；幽灵鲨反复部署叠层；红蒂后期补层数。'
+    },
+    position: '把要献祭的干员（低费工具人）放在阿戈尔干员<strong>正前方一格</strong>。',
+    leveling: '1 本抓幽灵鲨。中期规划站位。后期找红蒂。',
+    tips: [
+      '有一定上手难度，站位需要想一下。',
+      '本版本不算强势，新手建议优先萨尔贡或伊比利亚。',
+      '复活机制提供容错，但打远程比较吃力。'
+    ],
+    warn: '不建议新手首玩阿戈尔。'
+  },
+  {
+    id: 'siracusa', name: '叙拉古', emblem: '叙', cls: 'em-siracusa', titleCls: 'core',
+    sub: '异常真伤 · 打 BOSS 吃力 · 不建议首玩',
+    simple: '叙拉古靠给敌人挂<strong>异常状态</strong>，然后让有 2 种以上异常的敌人每秒受到真实伤害。但本版本社区实测反馈<strong>打 BOSS 很吃力</strong>。',
+    effect: '叙拉古干员部署后攻速提升。6 人：攻击概率附加随机异常；敌人有 2 种以上异常时每秒受到真伤。',
+    ops: [
+      { n: '拉普兰德', c: 'c3', note: '1本 · 获得时叠层', must: true },
+      { n: '忍冬', c: 'c7', note: '3本 · 叠层' },
+      { n: '四爷', c: 'c8', note: '3本 · 叠层' },
+      { n: '铃兰', c: 'c5', note: '5本 · 叠层' },
+      { n: '荒芜拉普兰德', c: 'c9', note: '6本 · 核心终端', must: true }
+    ],
+    stack: '拉普兰德获得时叠层，忍冬、四爷、铃兰也能叠。但<strong>核心叠层手和终端都在高本</strong>。',
+    synergy: {
+      subs: ['奥术', '不屈', '突袭'],
+      logic: '叙拉古没有坚守、没有聚合，<strong>生存是最大短板</strong>，所以外援肉盾和奶必须从副盟约里补——<strong>不屈</strong>给地面复活容错，<strong>突袭</strong>让干员自动飞走规避伤害。异常真伤吃<strong>奥术</strong>的法术增伤，能提升 BOSS 战输出。',
+      combo: '<strong>拉普兰德</strong>（获得时叠层） + <strong>忍冬</strong> + <strong>四爷</strong> + <strong>铃兰</strong>（叠层） + <strong>荒芜拉普兰德</strong>（6本核心终端） + <strong>卡达</strong>（奥术叠层） + <strong>斥罪</strong>（叙拉古 + 不屈） + <strong>赫德雷</strong>（突袭叠层）。',
+      final: '6 叙拉古 + 3 奥术 + 3 不屈 + 突袭。2 本停到 7 回合找拉狗，碰忍冬和四爷；8-9 回合直上 4 本，然后速 6；荒芜拉普兰德是终端。'
+    },
+    position: '叙拉古<strong>没有坚守、没有聚合</strong>，需要外援肉盾和奶。隐匿怪需要反隐。',
+    leveling: '2 本停到 7 回合找拉狗，碰忍冬和四爷。8-9 回合直上 4 本，然后速 6。',
+    tips: [
+      '社区实测：310 层叙拉古 + 102 层精准，打 BOSS 时间不够刮不完。',
+      '6 叙不加攻击力也不加伤害。',
+      '如果非要玩，打 BOSS 时开协防、聚合保生存。',
+      '<strong>不建议新手首玩。</strong>'
+    ],
+    warn: '本版本社区反馈比较差的体系，强度争议大，谨慎投入资源。'
+  },
+  {
+    id: 'yan', name: '炎', emblem: '炎', cls: 'em-yan', titleCls: 'core',
+    sub: '拜松获得即叠层 · 4 本炎即战力',
+    simple: '炎的核心是<strong>拜松</strong>，拿到就叠层，非常简单。4 本找到杜遥夜、仇白、余之后，炎队开始发力。前期比较弱，需要用小盟约过渡。',
+    effect: '炎干员攻击力提升。6 人：攻击附带随机元素损伤，全场敌人元素损伤恢复速度提升。',
+    ops: [
+      { n: '拜松', c: 'c1', note: '1本 · 获得时叠层', must: true },
+      { n: '杜遥夜', c: 'c7', note: '4本 · 稳定炎流核心', must: true },
+      { n: '仇白', c: 'c9', note: '4本 · 获得时叠炎 + 灵巧' },
+      { n: '余', c: 'c2', note: '4本' }
+    ],
+    stack: '拜松获得时叠层。<strong>4 本找杜遥夜、仇白、余</strong>，找到后炎队就成型了。',
+    synergy: {
+      subs: ['奥术', '精准', '灵巧'],
+      logic: '6 炎附带<strong>元素损伤</strong>，和<strong>奥术</strong>的法术增伤同属伤害乘区，联动收益高；仇白自带灵巧，<strong>灵巧</strong>的花费叠层能自然补上；<strong>精准</strong>给远程炎干员补双抗穿透。炎前期弱，所以副盟约要选能独立过渡的。',
+      combo: '<strong>拜松</strong>（获得时叠层，看到就抓） + <strong>杜遥夜</strong>（4本稳定炎流核心） + <strong>仇白</strong>（炎 + 灵巧） + <strong>余</strong>（4本） + <strong>卡达</strong>（奥术叠层） + <strong>霜叶</strong>（灵巧叠层） + <strong>灰喉</strong>（精准叠层）。',
+      final: '6 炎 + 3 奥术 + 3 精准 + 灵巧。前期用小盟约过渡，不要硬玩炎；4 本找到杜遥夜后开始发力；仇白站能打怪的位置。'
+    },
+    position: '杜遥夜和仇白放在能打到怪的位置。',
+    leveling: '前期用其他小盟约过渡，不要硬玩炎。4 本找到杜遥夜后开始发力。',
+    tips: [
+      '炎的四本是即战力最强的，但前期比较弱势。',
+      '拜松是低本叠层关键，看到就抓。',
+      '6 炎道中无敌，但打 BOSS 可能没别家快。'
+    ]
+  }
+];
+
+const subs = [
+  {
+    id: 'arcane', name: '奥术', emblem: '奥', cls: 'em-sub', titleCls: 'sub',
+    sub: '法术增伤 · 减法抗 · 反隐',
+    simple: '奥术让法术伤害更高，还能降低敌人法抗。3 奥术时还能让隐匿敌人显形。',
+    effect: '奥术干员造成伤害时额外附加一次法术伤害。3 人：场上所有敌人每次受伤时法抗降低；奥术干员攻击范围内隐匿失效。',
+    ops: [
+      { n: '卡达', c: 'c5', note: '1本 · 休整期叠层', must: true },
+      { n: '霍尔海雅', c: 'c4', note: '4本 · 开技能时使已激活盟约层数 +4/8' }
+    ],
+    stack: '卡达休整期叠层。霍尔海雅开技能也能叠。',
+    position: '奥术干员放在能打到怪的位置。3 奥术的反隐对特定地图很有用。',
+    leveling: '正常升本，卡达看到就抓。',
+    tips: [
+      '法术体系的通用增伤。',
+      '3 奥术反隐在隐匿怪多的地图是刚需。',
+      '常见搭配：炎（奥术6）、乌萨斯（奥术6）、莱塔尼亚（奥术5）。'
+    ]
+  },
+  {
+    id: 'precise', name: '精准', emblem: '精', cls: 'em-sub', titleCls: 'sub',
+    sub: '远程增伤 · 无视双抗',
+    simple: '精准让远程干员打得更疼，3 精准时还无视敌人 30% 防御和法抗。前期过渡很好用。',
+    effect: '精准干员攻击力提升。3 人：生效范围变为所有精准干员和远程干员，攻击无视 30% 防御力和法术抗性。',
+    ops: [
+      { n: '灰喉', c: 'c3', note: '1本 · 获得时叠层', must: true },
+      { n: '雪猎', c: 'c6', note: '2本 · 获得时叠谢拉格 + 精准', must: true },
+      { n: '寒芒克洛斯', c: 'c8', note: '放在叠层干员身后一格' }
+    ],
+    stack: '灰喉和雪猎获得时叠层。',
+    position: '寒芒克洛斯放叠层干员身后一格。',
+    leveling: '前期过渡很平滑。',
+    tips: [
+      '前期过渡很平滑。',
+      '铃兰谢拉格玩法里，开三精准二灵巧是核心。',
+      '常见搭配：萨尔贡（精准5）、莱塔尼亚（精准4）、伊比利亚（精准3）。'
+    ]
+  },
+  {
+    id: 'swift', name: '迅捷', emblem: '迅', cls: 'em-sub', titleCls: 'sub',
+    sub: '技力回复 · 技能循环',
+    simple: '迅捷让干员技能结束后有概率立刻回技力，技能放得更快。40 层后对所有人都生效。',
+    effect: '迅捷干员技能结束时有概率立刻回复技力。40 层：所有干员技能结束时有等概率额外回复 15 点技力。',
+    ops: [
+      { n: '陨星', c: 'c1', note: '1本 · 开技能叠层', must: true },
+      { n: 'W', c: 'c8', note: '4本 · 迅捷叠层后加攻击力' },
+      { n: '德克萨斯', c: 'c7', note: '配合叠层' }
+    ],
+    stack: '陨星每次开技能叠迅捷层数。',
+    position: '陨星放在能频繁开技能的位置。',
+    leveling: '正常升本。',
+    tips: [
+      '和萨尔贡相性最好。',
+      '40 层后对全体干员生效。',
+      '常见搭配：维多利亚（迅捷6）、伊比利亚（迅捷6）。'
+    ]
+  },
+  {
+    id: 'aggregate', name: '聚合', emblem: '聚', cls: 'em-sub', titleCls: 'sub',
+    sub: '回血 · 庇护 · 生存',
+    simple: '聚合让范围内的队友持续回血，3 聚合还给庇护。是道中保命的关键小盟约。',
+    effect: '聚合干员攻击范围内我方单位每秒回复生命值和元素损伤。3 人：范围内所有干员获得庇护。',
+    ops: [
+      { n: '褐果', c: 'c5', note: '1本 · 获得时叠层', must: true },
+      { n: '华法林', c: 'c5', note: '4本 · 灵巧 + 聚合' },
+      { n: '夜莺', c: 'c4', note: '4本 · 战斗结束按存活人数叠聚合 + 协防' }
+    ],
+    stack: '褐果获得时叠层。夜莺战斗结束时按存活人数叠层。',
+    position: '聚合干员放在队伍中间，让攻击范围覆盖尽可能多的人。',
+    leveling: '2 人即可激活，门槛低。',
+    tips: [
+      '2 人即可激活，门槛低。',
+      '伊比利亚自带聚合，生存有保障。',
+      '<strong>聚合叠太高可能导致莱塔尼亚召唤的小怪死不掉，卡住漏怪。</strong>'
+    ]
+  },
+  {
+    id: 'unyielding', name: '不屈', emblem: '不', cls: 'em-sub', titleCls: 'sub',
+    sub: '复活 · 地面容错',
+    simple: '不屈让地面干员被击倒后有概率直接复活。3 不屈还能给全队回技力。',
+    effect: '地面干员被击倒时，有概率立即重新部署。3 人：地面干员被击倒时使场上所有干员技力 +5。',
+    ops: [
+      { n: '摆渡人', c: 'c6', note: '1本 · 获得时叠坚守 + 不屈', must: true },
+      { n: '斥罪', c: 'c8', note: '4本 · 叙拉古 + 不屈' }
+    ],
+    stack: '摆渡人获得时叠层。',
+    position: '不屈是地面体系，站位跟着主盟约走。',
+    leveling: '正常升本。',
+    tips: [
+      '地面体系的容错保障。',
+      '3 不屈的技力回复对技能循环有帮助。',
+      '常见搭配：阿戈尔（不屈4）、叙拉古（不屈4）。'
+    ]
+  },
+  {
+    id: 'assist', name: '助力', emblem: '助', cls: 'em-sub', titleCls: 'sub',
+    sub: '全盟约加速 · 通用插件',
+    simple: '助力在休整期结束时给整备区里所有干员的盟约加层数。放整备区就能生效，不占部署位。',
+    effect: '休整期结束时，整备区中每名干员所在的已激活盟约分别层数 +2（3 人时 +4）。',
+    ops: [
+      { n: '淬羽赫默', c: 'c2', note: '4本 · 休整期结束时给整备区每名干员的盟约 +1/2', must: true },
+      { n: '夏栎', c: 'c6', note: '1本 · 整备区也生效' },
+      { n: '白铁', c: 'c7', note: '4本 · 维多利亚 + 助力' }
+    ],
+    stack: '淬羽赫默和夏栎放在整备区就能生效。',
+    position: '<strong>放整备区，不用上场。</strong>',
+    leveling: '正常升本。',
+    tips: [
+      '通用加速器，不管你主玩什么都能用。',
+      '夏栎放整备区就生效，不占部署位。',
+      '常见搭配：维多利亚（助力4）。'
+    ]
+  },
+  {
+    id: 'foresight', name: '远见', emblem: '远', cls: 'em-sub', titleCls: 'sub',
+    sub: '经济核心 · 降价 · 电表倒转组件',
+    simple: '远见叠层后给你钱，还能永久降低干员购买价格。是经济流的核心。',
+    effect: '每叠 10 层获得 2 资金。首次到 80 层：远见干员购买价格 -1。首次到 150 层：额外 -1。整备区远见干员也可激活。',
+    ops: [
+      { n: '寒檀', c: 'c8', note: '4本 · 休整期开始和结束时都叠远见', must: true },
+      { n: '圣约送葬人', c: 'c9', note: '带冰和加速器站盾侧叠层' },
+      { n: '黍', c: 'c2', note: '5本 · 获得时叠炎 + 远见' }
+    ],
+    stack: '寒檀在休整期开始和结束时都叠层。',
+    position: '远见干员放安全位置。整备区的远见干员也能激活。',
+    leveling: '正常升本。100 层之后可以用红豆、至简、暴行来电表倒转赚钱。',
+    tips: [
+      '经济体系的发动机。',
+      '和奇迹、投资人组成经济铁三角。',
+      '100 层远见之后可以用红豆、至简、暴行来电表倒转。'
+    ]
+  },
+  {
+    id: 'miracle', name: '奇迹', emblem: '奇', cls: 'em-sub', titleCls: 'sub',
+    sub: '经济 · 免费刷新 · 高本保底',
+    simple: '奇迹让刷新商店有概率不花钱，100 层后还能保底出高本干员。',
+    effect: '刷新调度中心时，有概率使下次刷新不消耗资金。首次到 100 层：刷新时至少出现一名等同于当前调度中心等级的干员。',
+    ops: [
+      { n: '能天使', c: 'c3', note: '1技能身后站华法林，旁边站魔王', must: true },
+      { n: '安洁莉娜', c: 'c4', note: '4本 · 每刷新一次叠叙拉古 + 奇迹' },
+      { n: '怒潮凛冬', c: 'c1', note: '5本 · 乌萨斯 + 奇迹' }
+    ],
+    stack: '能天使 1 技能身后站华法林，旁边站魔王对着更好。',
+    position: '能天使站在华法林前面/旁边。',
+    leveling: '正常升本。',
+    tips: [
+      '和远见、投资人组成经济铁三角。',
+      '100 层保底在高本找核心时很有价值。',
+      '常见搭配：维多利亚（奇迹5）、乌萨斯（奇迹5）。'
+    ]
+  },
+  {
+    id: 'invest', name: '投资人', emblem: '投', cls: 'em-sub', titleCls: 'sub',
+    sub: '经济 · 获得时双触发',
+    simple: '投资人让“获得时”类特质触发两次。拜松、灰喉、雪猎这种拿到就叠层的干员，一次拿等于叠两次。',
+    effect: '干员的“获得时”类特质每次触发 2 次。100 层后改为 3 次。',
+    ops: [
+      { n: '银灰', c: 'c8', note: '1技能身后站华法林，旁边站魔王', must: true },
+      { n: '山', c: 'c7', note: '4本 · 在场时买干员叠层' },
+      { n: '凛御银灰', c: 'c9', note: '5本 · 谢拉格 + 灵巧 + 投资人' }
+    ],
+    stack: '银灰 1 技能身后站华法林，旁边站魔王。',
+    position: '银灰站华法林前面/旁边。',
+    leveling: '正常升本。',
+    tips: [
+      '和远见、奇迹组成经济铁三角。',
+      '“获得时”特质翻倍意味着拜松、灰喉、雪猎一拿就叠更多层。',
+      '整备区的投资人干员也能激活。'
+    ]
+  },
+  {
+    id: 'deft', name: '灵巧', emblem: '灵', cls: 'em-sub', titleCls: 'sub',
+    sub: '攻速 · 花费叠层',
+    simple: '灵巧加攻速，40 层后范围变大。花钱也能叠灵巧层数。',
+    effect: '灵巧干员及周围干员攻速提升。40 层后范围从 4 格变 8 格。休整期结束时，本回合每花费 3 资金，灵巧/奥术层数 +2/4。',
+    ops: [
+      { n: '霜叶', c: 'c2', note: '1本 · 获得时叠层', must: true },
+      { n: '空弦', c: 'c3', note: '和断崖左脚踩右脚叠灵巧' },
+      { n: '断崖', c: 'c8', note: '配合空弦' },
+      { n: '华法林', c: 'c5', note: '4本 · 灵巧 + 聚合' }
+    ],
+    stack: '霜叶获得时叠层。空弦 + 断崖可以互相触发。',
+    position: '空弦和断崖放一起，互相触发。',
+    leveling: '正常升本。',
+    tips: [
+      '和远见、奇迹搭配，花钱就能叠层。',
+      '40 层后范围扩大。',
+      '常见搭配：萨尔贡（灵巧5）、维多利亚（灵巧3）。'
+    ]
+  },
+  {
+    id: '突袭', name: '突袭', emblem: '突', cls: 'em-sub', titleCls: 'sub',
+    sub: '再部署 · 全体攻速',
+    simple: '突袭让干员能自己飞到敌人身边打，50 层后全队攻速 +50。',
+    effect: '突袭干员 10 秒内未攻击且范围内无敌人时，保留技力立即再部署至一名地面敌人周围。50 层：所有干员攻速 +50。',
+    ops: [
+      { n: '赫德雷', c: 'c8', note: '4本 · 部署时叠突袭', must: true },
+      { n: '杰克', c: 'c7', note: '1本 · 伤害变弱点伤害' }
+    ],
+    stack: '赫德雷部署时叠突袭层数。',
+    position: '突袭干员会自动飞，不用太管站位。',
+    leveling: '正常升本。',
+    tips: [
+      '50 层全体攻速 +50 非常强力。',
+      '常见搭配：卡西米尔（突袭6）、叙拉古（突袭5）。'
+    ]
+  },
+  {
+    id: '坚守', name: '坚守', emblem: '坚', cls: 'em-sub', titleCls: 'sub',
+    sub: '生存 · 伤害分担',
+    simple: '坚守让全队血更厚，3 坚守时队友受伤的一部分由坚守干员分担。前期保命神器。',
+    effect: '所有干员生命值提升。3 人：非坚守干员受到伤害的 40% 由坚守干员平均承担；坚守干员受伤时伤害来源受到反伤和脆弱。',
+    ops: [
+      { n: '摆渡人', c: 'c6', note: '1本 · 获得时叠坚守 + 不屈', must: true },
+      { n: '角峰', c: 'c8', note: '1本 · 谢拉格 + 坚守' },
+      { n: '涤火杰西卡', c: 'c10', note: '4本 · 维多利亚 + 坚守' }
+    ],
+    stack: '摆渡人获得时叠层。',
+    position: '坚守干员放在前排，帮队友吃伤害。',
+    leveling: '正常升本。',
+    tips: [
+      '前期稳住血量的关键。',
+      '维多利亚等道中弱的体系刚需 3 坚守过渡。',
+      '铃兰谢拉格玩法：角峰加一坚守摆前面。'
+    ]
+  }
+];
+
+const OP_PORTRAITS = {
+  "莎草": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4139_papyrs.png",
+  "至简": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4054_malist.png",
+  "华法林": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_171_bldsk.png",
+  "异客": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_472_pasngr.png",
+  "深靛": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_469_indigo.png",
+  "棘刺": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_293_thorns.png",
+  "蓝毒": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_129_bluep.png",
+  "折光": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_499_kaitou.png",
+  "菲莱": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4148_philae.png",
+  "地灵": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_183_skgoat.png",
+  "纯烬艾雅法拉": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_1016_agoat2.png",
+  "砾": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_237_gravel.png",
+  "玛恩纳": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4064_mlynar.png",
+  "远牙": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_430_fartth.png",
+  "野鬃": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_496_wildmn.png",
+  "旅骨": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4232_hbound.png",
+  "维娜": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_1019_siege2.png",
+  "烈夏": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_194_leto.png",
+  "白铁": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4072_ironmn.png",
+  "慕斯": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_185_frncat.png",
+  "涤火杰西卡": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_1034_jesca2.png",
+  "折桠": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4207_branch.png",
+  "怒潮凛冬": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_1051_headb2.png",
+  "角峰": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_199_yak.png",
+  "雪猎": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4211_snhunt.png",
+  "塔露拉": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4247_oxi.png",
+  "初雪": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_174_slbell.png",
+  "幽灵鲨": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_143_ghost.png",
+  "灵知": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_206_gnosis.png",
+  "水月": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_437_mizuki.png",
+  "忍冬": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4026_vulpis.png",
+  "拉普兰德": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_140_whitew.png",
+  "红蒂": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_1012_skadi2.png",
+  "四爷": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_427_vigil.png",
+  "荒芜拉普兰德": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_1038_whitw2.png",
+  "仇白": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4082_qiubai.png",
+  "余": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_2026_yu.png",
+  "铃兰": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_358_lisa.png",
+  "卡达": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_328_cammou.png",
+  "霍尔海雅": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4027_heyak.png",
+  "拜松": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_325_bison.png",
+  "陨星": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_219_meteo.png",
+  "灰喉": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_367_swllow.png",
+  "寒芒克洛斯": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_1021_kroos2.png",
+  "褐果": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4041_chnut.png",
+  "W": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_113_cqbw.png",
+  "德克萨斯": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_102_texas.png",
+  "斥罪": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4065_judge.png",
+  "夜莺": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_179_cgbird.png",
+  "淬羽赫默": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_1031_slent2.png",
+  "寒檀": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_341_sntlla.png",
+  "圣约送葬人": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_1032_excu2.png",
+  "夏栎": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_492_quercu.png",
+  "能天使": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_103_angel.png",
+  "摆渡人": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4166_varkis.png",
+  "安洁莉娜": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_291_aglina.png",
+  "黍": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_2025_shu.png",
+  "山": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_264_f12yin.png",
+  "银灰": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_172_svrash.png",
+  "凛御银灰": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_1045_svash2.png",
+  "空弦": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_332_archet.png",
+  "霜叶": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_193_frostl.png",
+  "杰克": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_347_jaksel.png",
+  "格雷伊": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_253_greyy.png",
+  "断崖": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_294_ayer.png",
+  "杰西卡": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_1034_jesca2.png",
+  "赫德雷": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4088_hodrer.png",
+  "红豆": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_290_vigna.png",
+  "凛冬": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_115_headbr.png",
+  "复奏": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4031_liesel.png",
+  "狮蝎": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_215_mantic.png",
+  "暴雨": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_304_zebra.png",
+  "莱恩哈特": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_373_lionhd.png",
+  "送葬人": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_279_excu.png",
+  "冻河": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4244_tocka.png",
+  "赫默": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_108_silent.png",
+  "锡人": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4151_tinman.png",
+  "逻各斯": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4133_logos.png",
+  "魔王": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_002_amiya.png",
+  "娜仁图亚": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4138_narant.png",
+  "艾雅法拉": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_180_amgoat.png",
+  "黑键": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4046_ebnhlz.png",
+  "缇缇": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4056_titi.png",
+  "森蚺": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_416_zumama.png",
+  "佩佩": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_4058_pepe.png",
+  "暴行": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_230_savage.png",
+  "瑕光": "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar/char_423_blemsh.png",
+  "杜遥夜": "https://media.prts.wiki/6/68/%E5%8D%AB%E6%88%8D%E5%8D%8F%E8%AE%AE%EF%BC%9A%E7%9B%9F%E7%BA%A6_%E7%AD%96%E7%95%A5%E5%8F%91%E8%B5%B7%E4%BA%BA_%E6%9D%9C%E9%81%A5%E5%A4%9C.png"
+};
+const FORMATIONS = {
+  "sargon": {
+    "cols": 8,
+    "rows": 1,
+    "title": "萨尔贡 · 横排关系",
+    "units": [
+      {
+        "n": "华法林",
+        "r": 0,
+        "c": 0,
+        "label": "身后 / 至简可换",
+        "dir": "right"
+      },
+      {
+        "n": "异客",
+        "r": 0,
+        "c": 1,
+        "label": "同排核心",
+        "dir": "right"
+      },
+      {
+        "n": "菲莱",
+        "r": 0,
+        "c": 2,
+        "label": "同排叠层",
+        "dir": "right"
+      },
+      {
+        "n": "锡人",
+        "r": 0,
+        "c": 3,
+        "label": "",
+        "dir": "right"
+      },
+      {
+        "n": "莱恩哈特",
+        "r": 0,
+        "c": 4,
+        "label": "",
+        "dir": "right"
+      },
+      {
+        "n": "莎草",
+        "r": 0,
+        "c": 5,
+        "label": "治疗覆盖",
+        "dir": "right"
+      },
+      {
+        "n": "暴雨",
+        "r": 0,
+        "c": 6,
+        "label": "承伤",
+        "dir": "right"
+      },
+      {
+        "n": "森蚺",
+        "r": 0,
+        "c": 7,
+        "label": "前排",
+        "dir": "right"
+      }
+    ],
+    "note": "华法琳在异客身后一格，异客与至少两名队友同排。这里把原文横排关系统一画为朝右；具体地形与治疗覆盖需要调整。",
+    "bench": [
+      "至简"
+    ]
+  },
+  "iberia": {
+    "units": [
+      {
+        "n": "蓝毒",
+        "r": 0,
+        "c": 1,
+        "label": "安全输出",
+        "dir": "right"
+      },
+      {
+        "n": "灰喉",
+        "r": 0,
+        "c": 2,
+        "label": "精准",
+        "dir": "right"
+      },
+      {
+        "n": "旅骨",
+        "r": 1,
+        "c": 4,
+        "label": "清怪",
+        "dir": "right"
+      },
+      {
+        "n": "棘刺",
+        "r": 2,
+        "c": 4,
+        "label": "高本补位",
+        "dir": "right"
+      },
+      {
+        "n": "陨星",
+        "r": 2,
+        "c": 1,
+        "label": "迅捷",
+        "dir": "right"
+      },
+      {
+        "n": "深靛",
+        "r": 1,
+        "c": 1,
+        "label": "可选",
+        "dir": "right"
+      }
+    ],
+    "note": "蓝毒放安全后排或高台，旅骨靠近交战区。棘刺与深靛为可选补位；空格按地图补齐本家干员。"
+  },
+  "leithan": {
+    "units": [
+      {
+        "n": "华法林",
+        "r": 1,
+        "c": 0,
+        "label": "技能支援",
+        "dir": "right"
+      },
+      {
+        "n": "霍尔海雅",
+        "r": 1,
+        "c": 1,
+        "label": "1 技能",
+        "dir": "right"
+      },
+      {
+        "n": "空弦",
+        "r": 1,
+        "c": 2,
+        "label": "同排联动",
+        "dir": "right"
+      },
+      {
+        "n": "纯烬艾雅法拉",
+        "r": 0,
+        "c": 1,
+        "label": "治疗覆盖",
+        "dir": "right"
+      },
+      {
+        "n": "逻各斯",
+        "r": 0,
+        "c": 3,
+        "label": "输出",
+        "dir": "right"
+      },
+      {
+        "n": "黑键",
+        "r": 2,
+        "c": 2,
+        "label": "输出",
+        "dir": "right"
+      },
+      {
+        "n": "地灵",
+        "r": 2,
+        "c": 4,
+        "label": "击杀覆盖",
+        "dir": "right"
+      },
+      {
+        "n": "折光",
+        "r": 2,
+        "c": 0,
+        "label": "休整期叠层",
+        "dir": "right"
+      }
+    ],
+    "note": "华法琳放在霍尔海雅身后；空弦与核心保持联动。地灵靠交战区，奶羊在安全位置覆盖队友；召唤物占位按实战预留。",
+    "bench": [
+      "卡达"
+    ]
+  },
+  "kazimierz": {
+    "units": [
+      {
+        "n": "远牙",
+        "r": 0,
+        "c": 1,
+        "label": "安全输出",
+        "dir": "right"
+      },
+      {
+        "n": "灰喉",
+        "r": 0,
+        "c": 2,
+        "label": "精准",
+        "dir": "right"
+      },
+      {
+        "n": "玛恩纳",
+        "r": 1,
+        "c": 3,
+        "label": "输出",
+        "dir": "right"
+      },
+      {
+        "n": "摆渡人",
+        "r": 1,
+        "c": 5,
+        "label": "前排",
+        "dir": "right"
+      },
+      {
+        "n": "野鬃",
+        "r": 2,
+        "c": 4,
+        "label": "反复部署",
+        "dir": "right"
+      },
+      {
+        "n": "砾",
+        "r": 2,
+        "c": 5,
+        "label": "反复部署",
+        "dir": "right"
+      },
+      {
+        "n": "赫德雷",
+        "r": 2,
+        "c": 3,
+        "label": "突袭",
+        "dir": "right"
+      }
+    ],
+    "note": "远牙放安全位置，玛恩纳确保能打到敌人。野鬃、砾的位置灵活，留出反复部署的空间。"
+  },
+  "victoria": {
+    "units": [
+      {
+        "n": "涤火杰西卡",
+        "r": 0,
+        "c": 1,
+        "label": "安全位 / 装备",
+        "dir": "right"
+      },
+      {
+        "n": "白铁",
+        "r": 2,
+        "c": 0,
+        "label": "装备",
+        "dir": "right"
+      },
+      {
+        "n": "慕斯",
+        "r": 0,
+        "c": 4,
+        "label": "装备",
+        "dir": "right"
+      },
+      {
+        "n": "维娜",
+        "r": 2,
+        "c": 4,
+        "label": "装备 / 输出",
+        "dir": "right"
+      },
+      {
+        "n": "空弦",
+        "r": 1,
+        "c": 1,
+        "label": "相邻联动",
+        "dir": "right"
+      },
+      {
+        "n": "断崖",
+        "r": 1,
+        "c": 2,
+        "label": "相邻联动",
+        "dir": "left"
+      },
+      {
+        "n": "霜叶",
+        "r": 2,
+        "c": 2,
+        "label": "装备",
+        "dir": "right"
+      }
+    ],
+    "bench": [
+      "淬羽赫默"
+    ],
+    "note": "带装备的干员分散部署；空弦与断崖相邻联动，杰西卡保持安全。淬羽赫默留整备区，空位按原文补带装备的干员。"
+  },
+  "ursus": {
+    "units": [
+      {
+        "n": "折桠",
+        "r": 0,
+        "c": 0,
+        "label": "安全叠层",
+        "dir": "right"
+      },
+      {
+        "n": "卡达",
+        "r": 0,
+        "c": 2,
+        "label": "奥术",
+        "dir": "right"
+      },
+      {
+        "n": "陨星",
+        "r": 2,
+        "c": 1,
+        "label": "迅捷",
+        "dir": "right"
+      },
+      {
+        "n": "烈夏",
+        "r": 1,
+        "c": 4,
+        "label": "参与击杀",
+        "dir": "right"
+      },
+      {
+        "n": "怒潮凛冬",
+        "r": 2,
+        "c": 4,
+        "label": "参与击杀",
+        "dir": "right"
+      },
+      {
+        "n": "塔露拉",
+        "r": 1,
+        "c": 5,
+        "label": "后期输出",
+        "dir": "right"
+      }
+    ],
+    "note": "输出干员靠近交战区争取击杀；折桠放安全位置，休整期转化层数。"
+  },
+  "kjerag": {
+    "units": [
+      {
+        "n": "角峰",
+        "r": 0,
+        "c": 5,
+        "label": "前排坚守",
+        "dir": "right"
+      },
+      {
+        "n": "摆渡人",
+        "r": 2,
+        "c": 5,
+        "label": "补坚守",
+        "dir": "right"
+      },
+      {
+        "n": "空弦",
+        "r": 0,
+        "c": 1,
+        "label": "后排支援",
+        "dir": "right"
+      },
+      {
+        "n": "雪猎",
+        "r": 1,
+        "c": 1,
+        "label": "双狙击镜",
+        "dir": "right"
+      },
+      {
+        "n": "灵知",
+        "r": 1,
+        "c": 3,
+        "label": "冻结控制",
+        "dir": "right"
+      },
+      {
+        "n": "灰喉",
+        "r": 2,
+        "c": 1,
+        "label": "精准",
+        "dir": "right"
+      },
+      {
+        "n": "霜叶",
+        "r": 2,
+        "c": 3,
+        "label": "灵巧",
+        "dir": "right"
+      }
+    ],
+    "note": "角峰与另一名坚守在前，空弦、雪猎与前排拉开距离。雪猎按原文带两个狙击镜；其余位置灵活补盟约。"
+  },
+  "aegir": {
+    "units": [
+      {
+        "n": "红蒂",
+        "r": 0,
+        "c": 1,
+        "label": "后排支援",
+        "dir": "right"
+      },
+      {
+        "n": "褐果",
+        "r": 2,
+        "c": 1,
+        "label": "治疗覆盖",
+        "dir": "right"
+      },
+      {
+        "n": "水月",
+        "r": 2,
+        "c": 3,
+        "label": "周围联动",
+        "dir": "right"
+      },
+      {
+        "n": "幽灵鲨",
+        "r": 1,
+        "c": 3,
+        "label": "朝向右",
+        "dir": "right"
+      },
+      {
+        "n": "摆渡人",
+        "r": 1,
+        "c": 4,
+        "label": "身前一格祭品",
+        "dir": "right"
+      },
+      {
+        "n": "霜叶",
+        "r": 0,
+        "c": 3,
+        "label": "灵巧",
+        "dir": "right"
+      }
+    ],
+    "note": "最关键的是幽灵鲨的朝向：祭品必须紧贴她正前方一格。图中摆渡人在幽灵鲨右边，代表这组吞噬关系。"
+  },
+  "siracusa": {
+    "units": [
+      {
+        "n": "荒芜拉普兰德",
+        "r": 0,
+        "c": 2,
+        "label": "后期输出",
+        "dir": "right"
+      },
+      {
+        "n": "铃兰",
+        "r": 0,
+        "c": 1,
+        "label": "安全辅助",
+        "dir": "right"
+      },
+      {
+        "n": "卡达",
+        "r": 2,
+        "c": 1,
+        "label": "奥术",
+        "dir": "right"
+      },
+      {
+        "n": "拉普兰德",
+        "r": 1,
+        "c": 3,
+        "label": "输出",
+        "dir": "right"
+      },
+      {
+        "n": "忍冬",
+        "r": 2,
+        "c": 4,
+        "label": "叠层",
+        "dir": "right"
+      },
+      {
+        "n": "四爷",
+        "r": 2,
+        "c": 3,
+        "label": "叠层",
+        "dir": "right"
+      },
+      {
+        "n": "斥罪",
+        "r": 1,
+        "c": 5,
+        "label": "外援承伤",
+        "dir": "right"
+      },
+      {
+        "n": "赫德雷",
+        "r": 2,
+        "c": 5,
+        "label": "突袭",
+        "dir": "right"
+      }
+    ],
+    "note": "斥罪等承伤单位在前，远程输出与辅助在后。依地图另补治疗与反隐，突袭单位的最终位置会变化。"
+  },
+  "yan": {
+    "units": [
+      {
+        "n": "拜松",
+        "r": 1,
+        "c": 5,
+        "label": "前排",
+        "dir": "right"
+      },
+      {
+        "n": "仇白",
+        "r": 1,
+        "c": 4,
+        "label": "交战区输出",
+        "dir": "right"
+      },
+      {
+        "n": "余",
+        "r": 2,
+        "c": 4,
+        "label": "输出",
+        "dir": "right"
+      },
+      {
+        "n": "卡达",
+        "r": 0,
+        "c": 2,
+        "label": "奥术",
+        "dir": "right"
+      },
+      {
+        "n": "灰喉",
+        "r": 0,
+        "c": 1,
+        "label": "精准",
+        "dir": "right"
+      },
+      {
+        "n": "霜叶",
+        "r": 2,
+        "c": 3,
+        "label": "灵巧",
+        "dir": "right"
+      }
+    ],
+    "bench": [
+      "杜遥夜"
+    ],
+    "benchLabel": "策略发起人（非上场干员）",
+    "note": "拜松承伤，仇白靠近交战区。杜遥夜是策略发起人，肖像放在图外；原文把她列在干员中，这里不占部署格。"
+  },
+  "arcane": {
+    "units": [
+      {
+        "n": "卡达",
+        "r": 0,
+        "c": 2,
+        "label": "法术输出",
+        "dir": "right"
+      },
+      {
+        "n": "霍尔海雅",
+        "r": 1,
+        "c": 3,
+        "label": "技能叠层",
+        "dir": "right"
+      },
+      {
+        "n": "承伤位",
+        "r": 1,
+        "c": 5,
+        "label": "按主队补位",
+        "dir": "right"
+      }
+    ],
+    "note": "奥术输出面向交战区；若需要反隐，让其实际攻击范围覆盖隐匿敌人的行进区域。"
+  },
+  "precise": {
+    "units": [
+      {
+        "n": "灰喉",
+        "r": 1,
+        "c": 2,
+        "label": "叠层干员",
+        "dir": "right"
+      },
+      {
+        "n": "寒芒克洛斯",
+        "r": 1,
+        "c": 1,
+        "label": "身后一格",
+        "dir": "right"
+      },
+      {
+        "n": "雪猎",
+        "r": 0,
+        "c": 2,
+        "label": "远程输出",
+        "dir": "right"
+      },
+      {
+        "n": "承伤位",
+        "r": 1,
+        "c": 5,
+        "label": "按主队补位",
+        "dir": "right"
+      }
+    ],
+    "note": "寒芒克洛丝在叠层干员身后一格。灰喉只代表一个叠层位置，可按主队更换；远程保持安全输出。"
+  },
+  "swift": {
+    "units": [
+      {
+        "n": "陨星",
+        "r": 0,
+        "c": 2,
+        "label": "频繁开技能",
+        "dir": "right"
+      },
+      {
+        "n": "W",
+        "r": 2,
+        "c": 2,
+        "label": "远程输出",
+        "dir": "right"
+      },
+      {
+        "n": "德克萨斯",
+        "r": 1,
+        "c": 4,
+        "label": "配合叠层",
+        "dir": "right"
+      },
+      {
+        "n": "承伤位",
+        "r": 1,
+        "c": 5,
+        "label": "按主队补位",
+        "dir": "right"
+      }
+    ],
+    "note": "保证陨星能持续攻击并开启技能，其余位置跟随主队。这里只画技能循环的角色分工。"
+  },
+  "aggregate": {
+    "units": [
+      {
+        "n": "华法林",
+        "r": 1,
+        "c": 2,
+        "label": "治疗居中",
+        "dir": "right"
+      },
+      {
+        "n": "褐果",
+        "r": 0,
+        "c": 2,
+        "label": "治疗覆盖",
+        "dir": "right"
+      },
+      {
+        "n": "夜莺",
+        "r": 2,
+        "c": 2,
+        "label": "治疗覆盖",
+        "dir": "right"
+      },
+      {
+        "n": "主队输出",
+        "r": 0,
+        "c": 3,
+        "label": "受治疗",
+        "dir": "right"
+      },
+      {
+        "n": "承伤位",
+        "r": 1,
+        "c": 4,
+        "label": "受治疗",
+        "dir": "right"
+      }
+    ],
+    "note": "治疗单位放在队伍中间并朝向前排；这里的光圈仅强调覆盖关系，不代表实际技能范围。",
+    "coverage": true
+  },
+  "unyielding": {
+    "units": [
+      {
+        "n": "主队输出",
+        "r": 0,
+        "c": 1,
+        "label": "安全输出",
+        "dir": "right"
+      },
+      {
+        "n": "摆渡人",
+        "r": 0,
+        "c": 5,
+        "label": "前排容错",
+        "dir": "right"
+      },
+      {
+        "n": "斥罪",
+        "r": 2,
+        "c": 5,
+        "label": "前排容错",
+        "dir": "right"
+      }
+    ],
+    "note": "不屈跟随主队安排地面前排，无固定相邻要求。图中空格可以继续补主盟约。"
+  },
+  "assist": {
+    "units": [
+      {
+        "n": "主队输出",
+        "r": 0,
+        "c": 2,
+        "label": "主队上场",
+        "dir": "right"
+      },
+      {
+        "n": "承伤位",
+        "r": 1,
+        "c": 5,
+        "label": "主队上场",
+        "dir": "right"
+      }
+    ],
+    "bench": [
+      "淬羽赫默",
+      "夏栎",
+      "白铁"
+    ],
+    "benchLabel": "整备区 · 助力生效位置",
+    "note": "助力组件留整备区示意；是否需要让白铁上场，按主队装备需求决定。"
+  },
+  "foresight": {
+    "units": [
+      {
+        "n": "承伤位",
+        "r": 1,
+        "c": 5,
+        "label": "前排盾",
+        "dir": "right"
+      },
+      {
+        "n": "圣约送葬人",
+        "r": 2,
+        "c": 5,
+        "label": "盾侧输出",
+        "dir": "right"
+      },
+      {
+        "n": "黍",
+        "r": 0,
+        "c": 4,
+        "label": "安全补位",
+        "dir": "right"
+      }
+    ],
+    "bench": [
+      "寒檀"
+    ],
+    "note": "圣约送葬人按原文放在盾侧；寒檀等远见组件可以在安全位置或整备区。装备与触发条件以游戏内说明为准。"
+  },
+  "miracle": {
+    "units": [
+      {
+        "n": "华法林",
+        "r": 1,
+        "c": 1,
+        "label": "身后一格",
+        "dir": "right"
+      },
+      {
+        "n": "能天使",
+        "r": 1,
+        "c": 2,
+        "label": "1 技能",
+        "dir": "right"
+      },
+      {
+        "n": "魔王",
+        "r": 0,
+        "c": 2,
+        "label": "面向能天使",
+        "dir": "down"
+      },
+      {
+        "n": "安洁莉娜",
+        "r": 2,
+        "c": 1,
+        "label": "安全位",
+        "dir": "right"
+      },
+      {
+        "n": "怒潮凛冬",
+        "r": 2,
+        "c": 4,
+        "label": "输出",
+        "dir": "right"
+      }
+    ],
+    "note": "华法琳在能天使身后，魔王在相邻格并朝向能天使。其他位置按主队补齐。"
+  },
+  "invest": {
+    "units": [
+      {
+        "n": "华法林",
+        "r": 1,
+        "c": 1,
+        "label": "身后一格",
+        "dir": "right"
+      },
+      {
+        "n": "银灰",
+        "r": 1,
+        "c": 2,
+        "label": "1 技能",
+        "dir": "right"
+      },
+      {
+        "n": "魔王",
+        "r": 0,
+        "c": 2,
+        "label": "面向银灰",
+        "dir": "down"
+      },
+      {
+        "n": "山",
+        "r": 2,
+        "c": 4,
+        "label": "在场叠层",
+        "dir": "right"
+      }
+    ],
+    "bench": [
+      "凛御银灰"
+    ],
+    "note": "华法琳在银灰身后，魔王相邻并朝向银灰。凛御银灰可作后期补位或整备区组件。"
+  },
+  "deft": {
+    "units": [
+      {
+        "n": "空弦",
+        "r": 1,
+        "c": 2,
+        "label": "相邻联动",
+        "dir": "right"
+      },
+      {
+        "n": "断崖",
+        "r": 1,
+        "c": 3,
+        "label": "相邻联动",
+        "dir": "left"
+      },
+      {
+        "n": "华法林",
+        "r": 0,
+        "c": 2,
+        "label": "覆盖支援",
+        "dir": "right"
+      },
+      {
+        "n": "霜叶",
+        "r": 2,
+        "c": 3,
+        "label": "灵巧叠层",
+        "dir": "right"
+      }
+    ],
+    "note": "空弦和断崖相邻，按技能需要调整彼此朝向；其他干员靠近灵巧生效区。"
+  },
+  "突袭": {
+    "units": [
+      {
+        "n": "赫德雷",
+        "r": 0,
+        "c": 3,
+        "label": "初始位置可调整",
+        "dir": "right"
+      },
+      {
+        "n": "杰克",
+        "r": 2,
+        "c": 3,
+        "label": "初始位置可调整",
+        "dir": "right"
+      },
+      {
+        "n": "承伤位",
+        "r": 1,
+        "c": 5,
+        "label": "主队前排",
+        "dir": "right"
+      }
+    ],
+    "note": "图中只表示初始部署。突袭触发后会重新部署到敌人周围，因此没有固定的最终站位。"
+  },
+  "坚守": {
+    "units": [
+      {
+        "n": "主队输出",
+        "r": 0,
+        "c": 1,
+        "label": "安全输出",
+        "dir": "right"
+      },
+      {
+        "n": "角峰",
+        "r": 0,
+        "c": 5,
+        "label": "前排",
+        "dir": "right"
+      },
+      {
+        "n": "摆渡人",
+        "r": 1,
+        "c": 5,
+        "label": "前排",
+        "dir": "right"
+      },
+      {
+        "n": "涤火杰西卡",
+        "r": 2,
+        "c": 5,
+        "label": "前排 / 主队调整",
+        "dir": "right"
+      }
+    ],
+    "note": "坚守单位在前，其他干员在其保护下输出；杰西卡若是主队关键叠层核心，可按安全需求后移。"
+  }
+};
+const VISUAL_NAMES = {
+  '华法林': '华法琳', '寒芒克洛斯': '寒芒克洛丝',
+  '红蒂': '浊心斯卡蒂', '四爷': '伺夜', '维娜': '维娜·维多利亚',
+  '魔王': '阿米娅', '奶羊': '纯烬艾雅法拉', '雅雅': '霍尔海雅',
+  '杰西卡': '涤火杰西卡', '异银': '凛御银灰', '拉狗': '拉普兰德'
+};
+
+function escapeXML(value) {
+  return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+}
+
+function portraitFor(name) {
+  return OP_PORTRAITS[name] || OP_PORTRAITS[VISUAL_NAMES[name]] || '';
+}
+
+function displayName(name) {
+  return VISUAL_NAMES[name] || name;
+}
+
+function renderOperatorCard(op) {
+  const name = displayName(op.n);
+  const alias = name !== op.n ? `（原文：${op.n}）` : '';
+  const note = op.n === '杜遥夜' ? '策略发起人 · 非上场干员' : op.note;
+  return `<div class="key-card ${op.must ? 'must' : ''}">
+    <button type="button" class="portrait-button" onclick="openPortrait('${escapeXML(op.n)}')" aria-label="放大查看${escapeXML(name)}图片" title="点击放大${escapeXML(name)}${escapeXML(alias)}">
+      <img referrerpolicy="no-referrer" class="op-avatar" src="${portraitFor(op.n)}" alt="${escapeXML(name)}${escapeXML(alias)}" loading="lazy" decoding="async" width="70" height="70">
+    </button>
+    <span class="op-card-body"><span class="op-card-name">${escapeXML(name)}${op.must ? '<small>关键</small>' : ''}</span><span class="op-card-note">${escapeXML(note)}</span></span>
+  </div>`;
+}
+
+function decorateOperators(text) {
+  return text.replace(/<strong>([^<]+)<\/strong>/g, (match, textName) => {
+    const name = textName.replace(/（.*$/, '');
+    if (!portraitFor(name)) return match;
+    return `<strong class="inline-operator"><img referrerpolicy="no-referrer" src="${portraitFor(name)}" alt="" loading="lazy" decoding="async" width="26" height="26">${textName}</strong>`;
+  });
+}
+
+let formationSequence = 0;
+
+function formationSVG(id, resolvePortrait = portraitFor) {
+  const item = [...cores, ...subs].find(x => x.id === id);
+  const f = FORMATIONS[id];
+  if (!item || !f) return '';
+  const cols = f.cols || 6, rows = f.rows || 3;
+  const width = cols * 132 + 120, fieldBottom = 98 + rows * 146;
+  const bench = f.bench || [], height = fieldBottom + (bench.length ? 146 : 36);
+  const uid = `formation-${id}-${++formationSequence}`;
+  let svg = `<svg class="formation-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="${uid}-title ${uid}-desc">
+  <title id="${uid}-title">${escapeXML(item.name)}总体站位示意图</title>
+  <desc id="${uid}-desc">${escapeXML(f.note)} 左侧后排，右侧前排，三角形表示朝向；空格按主队补位。此图为关系示意，不代表固定地图坐标。</desc>
+  <defs><linearGradient id="${uid}-tile" x2="0" y2="1"><stop stop-color="#252939"/><stop offset="1" stop-color="#171a24"/></linearGradient></defs>
+  <rect width="${width}" height="${height}" rx="12" fill="#10121a"/>
+  <text x="38" y="38" font-size="23" font-weight="600" fill="#e6cf9a" font-family="system-ui, sans-serif">${escapeXML(f.title || item.name + ' · 总体站位')}</text>
+  <text x="38" y="72" font-size="17" fill="#adb2c5" font-family="system-ui, sans-serif">后排 / 安全区</text>
+  <text x="${width - 38}" y="72" text-anchor="end" font-size="17" fill="#f0a392" font-family="system-ui, sans-serif">前排 / 敌人来向 ◀</text>`;
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    const x = 60 + c * 132, y = 98 + r * 146;
+    svg += `<rect x="${x}" y="${y}" width="120" height="130" rx="10" fill="#151823" stroke="#2b3040" stroke-dasharray="4 5"/>`;
+    if (!f.units.some(u=>u.r===r && u.c===c)) svg += `<text x="${x+60}" y="${y+73}" text-anchor="middle" font-size="16" fill="#747e95" font-family="system-ui,sans-serif">灵活位</text>`;
+  }
+  if (f.coverage) svg += `<ellipse cx="${60+2*132+60}" cy="${98+146+65}" rx="207" ry="195" fill="#7ec8a0" fill-opacity=".04" stroke="#7ec8a0" stroke-opacity=".4" stroke-width="2" stroke-dasharray="8 7"/>`;
+  for (const u of f.units) {
+    const x = 60 + u.c * 132, y = 98 + u.r * 146;
+    const pic = resolvePortrait(u.n), generic = !portraitFor(u.n);
+    svg += `<g><title>${escapeXML(displayName(u.n))}：${escapeXML(u.label || '位置可调整')}</title><rect x="${x}" y="${y}" width="120" height="130" rx="10" fill="url(#${uid}-tile)" stroke="${generic ? '#738099' : '#a18b5d'}" stroke-width="1.5"/>`;
+    if (pic) svg += `<image href="${pic}" xlink:href="${pic}" x="${x+27}" y="${y+8}" width="66" height="66" preserveAspectRatio="xMidYMid slice"/>`;
+    else svg += `<rect x="${x+31}" y="${y+13}" width="58" height="55" rx="12" fill="#30374b"/><text x="${x+60}" y="${y+51}" text-anchor="middle" font-size="25" fill="#bac8e2" font-family="system-ui,sans-serif">${u.n==='承伤位'?'盾':(generic?'队':escapeXML(displayName(u.n).slice(0, 1)))}</text>`;
+    const name = displayName(u.n);
+    svg += `<text x="${x+60}" y="${y+96}" text-anchor="middle" font-size="${name.length>5 ? '16' : '18'}" font-weight="600" fill="#f0e9db" font-family="system-ui,sans-serif">${escapeXML(name)}</text>`;
+    if (u.label) svg += `<text x="${x+60}" y="${y+118}" text-anchor="middle" font-size="${u.label.length>8?'13.5':'15'}" fill="#b6bed0" font-family="system-ui,sans-serif">${escapeXML(u.label)}</text>`;
+    const cx=x+109,cy=y+45;
+    let points = `${cx-5},${cy-7} ${cx+5},${cy} ${cx-5},${cy+7}`;
+    if(u.dir==='left')points=`${x+12+5},${cy-7} ${x+12-5},${cy} ${x+12+5},${cy+7}`;
+    if(u.dir==='down')points=`${cx-7},${cy-5} ${cx+7},${cy-5} ${cx},${cy+5}`;
+    svg += `<polygon points="${points}" fill="#e6c88c"/></g>`;
+  }
+  if (bench.length) {
+    const y=fieldBottom+9;
+    svg += `<line x1="38" y1="${y}" x2="${width-38}" y2="${y}" stroke="#343748"/><text x="38" y="${y+30}" font-size="17" fill="#9bc5e3" font-family="system-ui,sans-serif">${escapeXML(f.benchLabel || '整备 / 替换组件 · 不计入图中部署')}</text>`;
+    bench.forEach((n,i)=>{
+      const x=38+i*210;
+      svg += `<image href="${resolvePortrait(n)}" xlink:href="${resolvePortrait(n)}" x="${x}" y="${y+46}" width="48" height="48"/><text x="${x+59}" y="${y+77}" font-size="18" fill="#d6deeb" font-family="system-ui,sans-serif">${escapeXML(displayName(n))}</text>`;
+    });
+  }
+  svg += `<text x="${width-38}" y="${height-14}" text-anchor="end" font-size="15" fill="#828da4" font-family="system-ui,sans-serif">▲ 三角表示朝向 · 相对关系示意</text></svg>`;
+  return svg;
+}
+
+function renderFormation(id, overview = false) {
+  const f=FORMATIONS[id];
+  if(!f)return '';
+  return `<section class="formation-panel" aria-label="总体站位图">
+    <div class="formation-toolbar"><div><div class="formation-title">总体站位图</div><p class="formation-kicker">干员头像 · 前后排 · 部署朝向</p></div><div class="formation-actions"><button class="formation-button" type="button" onclick="openFormation('${id}')">放大查看</button><button class="formation-button" type="button" onclick="saveFormation('${id}')">保存站位图</button>${overview?`<button class="formation-button" type="button" onclick="showDetail('${id}')">查看完整攻略</button>`:''}</div></div>
+    <div class="formation-scroll">${formationSVG(id)}</div>
+    <p class="formation-note">${escapeXML(f.note)}</p><p class="formation-disclaimer">示意图用于理解前后与相邻关系；具体格子、地形和上场人数按实际对局调整。手机可横向滑动看全图。</p>
+  </section>`;
+}
+
+function updateOverview(id) {
+  document.getElementById('formationOverview').innerHTML=renderFormation(id,true);
+}
+
+function openFormation(id) {
+  const item=[...cores,...subs].find(x=>x.id===id);
+  if(!item)return;
+  document.getElementById('modalTitle').textContent=item.name+' · 总体站位图';
+  document.getElementById('modalBody').innerHTML=`<div class="formation-scroll">${formationSVG(id)}</div><p class="formation-note">${escapeXML(FORMATIONS[id].note)}</p><p class="formation-disclaimer">相对关系示意，不对应固定地图坐标。</p>`;
+  document.getElementById('imageModal').showModal();
+}
+
+function openPortrait(name) {
+  if(!portraitFor(name))return;
+  document.getElementById('modalTitle').textContent=displayName(name);
+  document.getElementById('modalBody').innerHTML=`<img referrerpolicy="no-referrer" class="modal-portrait" src="${portraitFor(name)}" alt="${escapeXML(displayName(name))}"><p class="modal-caption">${escapeXML(displayName(name))}${name==='杜遥夜'?' · 策略发起人':''}</p>`;
+  document.getElementById('imageModal').showModal();
+}
+
+function closeImageModal() {document.getElementById('imageModal').close();}
+
+function loadExportPortrait(url) {
+  if (!url) return Promise.resolve("");
+  return fetch(url, {referrerPolicy: "no-referrer", signal: AbortSignal.timeout(3500)})
+    .then(response => {
+      if (!response.ok) throw new Error("Image unavailable");
+      return response.blob();
+    })
+    .then(blob => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    }))
+    .catch(() => "");
+}
+
+async function saveFormation(id) {
+  const item = [...cores, ...subs].find(entry => entry.id === id);
+  if (!item) return;
+  const formation = FORMATIONS[id];
+  const names = [...new Set([...formation.units.map(unit => unit.n), ...(formation.bench || [])])];
+  const images = await Promise.all(names.map(async name => [name, await loadExportPortrait(portraitFor(name))]));
+  const embedded = Object.fromEntries(images);
+  const svg = '<?xml version="1.0" encoding="UTF-8"?>\n' + formationSVG(id, name => embedded[name] || "");
+  const url = URL.createObjectURL(new Blob([svg], {type: "image/svg+xml;charset=utf-8"}));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = item.name + "-总体站位图.svg";
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function initVisuals() {
+  const all=[...cores,...subs];
+  document.getElementById('formationSelect').innerHTML='<optgroup label="核心盟约">'+cores.map(i=>`<option value="${i.id}">${i.name}</option>`).join('')+'</optgroup><optgroup label="附加盟约">'+subs.map(i=>`<option value="${i.id}">${i.name}</option>`).join('')+'</optgroup>';
+  updateOverview(all[0].id);
+  const dialog=document.getElementById('imageModal');
+  dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();});
+  showList();
+}
+
+function renderEntries(list, containerId) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = list.map(item => `
+    <div class="entry-card" role="button" tabindex="0" onclick="showDetail('${item.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showDetail('${item.id}')}">
+      <div class="entry-emblem ${item.cls}">${item.emblem}</div>
+      <div class="entry-info">
+        <div class="entry-name ${item.titleCls}">${item.name}</div>
+        <div class="entry-desc">${item.sub}</div>
+      </div>
+      <div class="entry-portraits" aria-hidden="true">${item.ops.slice(0,3).map(o=>`<img referrerpolicy="no-referrer" src="${portraitFor(o.n)}" alt="" loading="lazy" width="37" height="37">`).join('')}</div>
+    </div>
+  `).join('');
+}
+
+function renderSynergy(syn) {
+  if (!syn) return '';
+  const subTags = syn.subs.map(s => `<span class="sub-tag">${s}</span>`).join('');
+  return `
+    <div class="synergy-block">
+      <div class="synergy-head">
+        <span class="badge">联动</span>
+        <h3>副盟约联动与毕业配置</h3>
+      </div>
+
+      <div class="synergy-row">
+        <div class="row-label">推荐副盟约</div>
+        <div class="sub-tags">${subTags}</div>
+      </div>
+
+      <div class="synergy-row">
+        <div class="row-label">为什么这样挂</div>
+        <div class="row-body">${syn.logic}</div>
+      </div>
+
+      <div class="synergy-row">
+        <div class="row-label">干员组合</div>
+        <div class="row-body">${decorateOperators(syn.combo)}</div>
+      </div>
+
+      <div class="synergy-row">
+        <div class="row-label">毕业配置</div>
+        <div class="final-config">${syn.final}</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderDetail(item) {
+  const opsHtml = item.ops.map(o => renderOperatorCard(o)).join('');
+
+  const tipsHtml = item.tips.map(t => `<li>${t}</li>`).join('');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-header">
+      <div class="detail-emblem ${item.cls}">${item.emblem}</div>
+      <div>
+        <h2 class="${item.titleCls}">${item.name}</h2>
+        <div class="subtitle">${item.sub}</div>
+      </div>
+    </div>
+
+    <div class="simple-explain">
+      <strong>一句话理解：</strong>${item.simple}
+    </div>
+
+    <div class="info-block">
+      <span class="info-label gold">完整效果</span>
+      <div class="info-content">${item.effect}</div>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label green">主要干员</span>
+      <div class="key-cards">${opsHtml}</div>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label green">叠层方法</span>
+      <div class="info-content">${item.stack}</div>
+    </div>
+
+    ${renderSynergy(item.synergy)}
+
+    ${renderFormation(item.id)}
+    <div class="info-block">
+      <span class="info-label blue">站位提示</span>
+      <div class="info-content">${item.position}</div>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label blue">升本节奏</span>
+      <div class="info-content">${item.leveling}</div>
+    </div>
+
+    <div class="info-block">
+      <span class="info-label blue">新手要点</span>
+      <ul class="step-list">${tipsHtml}</ul>
+    </div>
+
+    ${item.warn ? `<div class="warn-box"><strong>注意：</strong>${item.warn}</div>` : ''}
+  `;
+}
+
+function showDetail(id) {
+  const all = [...cores, ...subs];
+  const item = all.find(x => x.id === id);
+  if (!item) return;
+  renderDetail(item);
+  document.getElementById('listView').style.display = 'none';
+  document.getElementById('detailView').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function showList() {
+  document.getElementById('detailView').style.display = 'none';
+  document.getElementById('listView').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+renderEntries(cores, 'coreEntries');
+renderEntries(subs, 'subEntries');
+initVisuals();
+</script>
+</body>
+</html>
