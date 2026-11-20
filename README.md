@@ -16,3 +16,9 @@
 
 - 干员头像来源：[ArknightsGameResource](https://github.com/yuanyan3060/ArknightsGameResource)
 - 杜遥夜肖像来源：[PRTS](https://prts.wiki/w/文件:卫戍协议：盟约_策略发起人_杜遥夜.png)
+
+## 规程资料库
+
+打开 [规程资料库](https://r0yking.github.io/arknights-guard-protocol-guide/database.html) 可查询国服规程序列Ⅰ的盟约、策略、敌人、干员、机变、装备、战地广播和专属贴士。
+游戏机制、数值和名单据 [PRTS 盟约记录](https://prts.wiki/w/卫戍协议·规程/PRTS盟约记录) 整理，期次参考 [鹰角活动公告](https://ak.hypergryph.com/news/4915)。广播按触发条件归纳，各栏目附有原文链接。
+MIT 许可证适用于本站代码。游戏名称、游戏内容及远程加载的干员头像归原权利人所有。头像来自 PRTS 及仓库中注明的游戏素材整理。

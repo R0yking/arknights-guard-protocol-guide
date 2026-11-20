@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="明日方舟卫戍协议·规程序列Ⅰ资料库，收录盟约、策略、敌人、干员、机变、装备、战地广播和专属贴士。">
+  <title>规程资料库 · 卫戍协议</title>
+  <link rel="stylesheet" href="theme.css?v=20261120-2">
+  <style>
+    * { box-sizing: border-box; }
+    body { position: relative; margin: 0; color: var(--text); font: 15px/1.6 var(--sans); }
+    body::before { content: ""; pointer-events: none; }
+    a { color: var(--gold-bright); }
+    :is(a, button, summary, input, select):focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+    [hidden] { display: none !important; }
+    .archive-wrap { position: relative; width: min(100% - 48px, 1160px); margin-inline: auto; }
+    .archive-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 23px 0; border-bottom: 1px solid #a2b4c83d; }
+    .archive-brand { color: var(--text); font-weight: 700; text-decoration: none; }
+    .archive-link, .archive-more {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 42px; padding: 8px 14px; border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm); background: var(--control-surface);
+      color: var(--text); text-decoration: none; font: 600 .875rem/1.3 var(--sans); cursor: pointer;
+    }
+    .archive-link:hover, .archive-more:hover { background: var(--control-hover); border-color: var(--gold); }
+    .archive-hero { padding: 64px 0 42px; text-shadow: 0 2px 20px #0a1119; }
+    .archive-period { margin: 0 0 12px; color: var(--gold-bright); font-weight: 600; letter-spacing: .13em; }
+    .archive-hero h1 { margin: 0 0 8px; font-size: clamp(2.65rem, 6vw, 4.4rem); font-weight: 750; line-height: 1.13; letter-spacing: .035em; }
+    .archive-hero p:last-child { margin: 0; color: var(--text-mid); font-size: 1rem; }
+    .archive-tabs {
+      display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 1px;
+      border: 1px solid var(--border-strong); border-radius: var(--radius);
+      overflow: clip; background: var(--border-hair);
+    }
+    .archive-tab {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 6px;
+      min-height: 55px; padding: 15px 10px; background: var(--surface-solid); color: var(--text-mid);
+      text-decoration: none; font-weight: 600; text-wrap: nowrap;
+      box-shadow: inset 0 -3px transparent;
+    }
+    .archive-tab small { color: var(--text-dim); font: 500 .75rem/1.4 var(--sans); font-variant-numeric: tabular-nums; }
+    .archive-tab:hover { background: var(--surface-hover); color: var(--text); }
+    .archive-tab:focus-visible { outline-offset: -4px; }
+    .archive-tab[aria-current="page"] { color: var(--gold-bright); background: #2e2922; box-shadow: inset 0 -3px var(--gold); }
+    .archive-tab[aria-current="page"] small { color: var(--gold-bright); }
+    .archive-controls {
+      display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(120px, .8fr) minmax(120px, .75fr); gap: 12px;
+      padding: 18px; margin-top: 14px; border: 1px solid var(--border-hair);
+      border-radius: var(--radius); background: #15202aeb; box-shadow: var(--shadow-card);
+    }
+    .archive-field { display: grid; gap: 5px; min-width: 0; color: var(--text-mid); font-size: .825rem; font-weight: 600; }
+    .archive-field input, .archive-field select {
+      width: 100%; min-height: 43px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
+      padding: 8px 12px; background: var(--bg-deep); color: var(--text); font: 400 16px/1.35 var(--sans);
+    }
+    .archive-field input::placeholder { color: var(--text-dim); opacity: 1; }
+    .archive-results-heading {
+      display: flex; align-items: end; justify-content: space-between; flex-wrap: wrap; gap: 6px 16px;
+      margin: 32px 0 13px; border-bottom: 1px solid var(--border-hair); padding-bottom: 11px;
+    }
+    .archive-results-heading h2 { margin: 0; font-size: 1.45rem; }
+    .archive-results-heading a { font-size: .875rem; }
+    .archive-count { margin-left: 9px; color: var(--text-mid); font-size: .82rem; font-weight: 500; white-space: nowrap; }
+    .archive-note { margin: 0 0 14px; color: var(--text-mid); font-size: .9rem; }
+    .archive-results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
+    .archive-card {
+      border: 1px solid var(--border-hair); border-radius: var(--radius); background: #17212aef;
+      padding: clamp(13px, 2vw, 19px); box-shadow: var(--shadow-card); min-width: 0;
+    }
+    .archive-card:target { border-color: var(--gold); }
+    .archive-card-head { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .archive-card h3 { margin: 0; font-size: 1.15rem; line-height: 1.4; overflow-wrap: anywhere; }
+    .archive-card-meta { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 4px; color: var(--text-mid); font-size: .82rem; }
+    .archive-card-meta strong { color: var(--gold-bright); font-weight: 600; }
+    .archive-portrait {
+      width: 48px; height: 48px; flex: 0 0 auto; object-fit: cover; border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle); background: var(--control-surface);
+    }
+    .archive-fields { display: grid; gap: 0; margin: 12px 0 0; border-top: 1px solid var(--border-hair); }
+    .archive-fields > div { display: grid; grid-template-columns: minmax(6.4em, 24%) minmax(0, 1fr); gap: 6px 12px; padding: 8px 0; }
+    .archive-fields > div + div { border-top: 1px solid #303b4588; }
+    .archive-fields dt { color: var(--blue-soft); font-size: .815rem; font-weight: 600; }
+    .archive-fields dd { margin: 0; color: var(--text); font-size: .88rem; overflow-wrap: anywhere; }
+    .archive-chips { display: flex; flex-wrap: wrap; gap: 5px 6px; margin-top: 9px; }
+    .archive-chip {
+      display: inline-block; max-width: 100%; padding: 4px 9px; border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm); color: var(--text-mid); font-size: .82rem; overflow-wrap: anywhere;
+    }
+    a.archive-chip { text-decoration: none; color: var(--gold-bright); }
+    a.archive-chip:hover { border-color: var(--gold); background: var(--surface-hover); }
+    .archive-card details { margin-top: 10px; border-top: 1px solid var(--border-hair); }
+    .archive-card summary { padding: 9px 0 0; color: var(--gold-bright); font-size: .86rem; cursor: pointer; }
+    .archive-card-foot { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 11px; font-size: .82rem; }
+    .archive-card-foot a { color: var(--text-mid); }
+    .archive-stats { width: 100%; margin-top: 9px; border-collapse: collapse; font-size: .82rem; font-variant-numeric: tabular-nums; }
+    .archive-stats :is(th,td) { padding: 7px 6px; text-align: right; border-block-end: 1px solid var(--border-hair); }
+    .archive-stats th:first-child { text-align: left; }
+    .archive-stats thead th { color: var(--text-mid); background: var(--bg-soft); }
+    .archive-stats tbody th { color: var(--text-mid); font-weight: 500; }
+    .archive-stats .archive-secret { color: #ffc3a9; }
+    .archive-empty { color: var(--text-mid); }
+    .archive-more {
+      margin: 18px 0 0; color: var(--primary-text);
+      border-color: var(--primary-start); background: var(--primary-start);
+    }
+    .archive-more:hover { color: var(--primary-text); background: var(--primary-hover); }
+    .archive-footer { margin: 38px 0 0; padding: 18px 0 32px; border-top: 1px solid var(--border-hair); color: var(--text-mid); font-size: .82rem; }
+    .archive-footer p { margin: 0 0 6px; }
+    @media (max-width: 1050px) {
+      .archive-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    @media (max-width: 690px) {
+      .archive-wrap { width: calc(100% - 30px); }
+      .archive-nav { padding-block: 15px; }
+      .archive-hero { padding: 43px 0 29px; }
+      .archive-hero p:last-child { max-width: 29ch; }
+      .archive-tab { min-height: 50px; padding: 9px 5px; flex-direction: column; justify-content: center; align-items: center; gap: 0; font-size: .82rem; }
+      .archive-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 12px; gap: 10px; }
+      .archive-field:first-child { grid-column: 1 / -1; }
+      .archive-results-heading { margin-top: 22px; }
+      .archive-results { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (max-width: 410px) {
+      .archive-fields > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+      .archive-stats :is(th,td) { padding-inline: 3px; }
+    }
+  </style>
+  </head>
+<body>
+  <header class="archive-wrap">
+    <nav class="archive-nav" aria-label="站点导航">
+      <a class="archive-brand" href="index.html">卫戍协议 · 盟约指南</a>
+      <a class="archive-link" href="index.html#formations">配队与站位</a>
+    </nav>
+    <div class="archive-hero">
+      <p class="archive-period">规程 · 序列Ⅰ · 国服</p>
+      <h1>规程资料库</h1>
+      <p>查询盟约触发条件、策略解锁、干员特质与战斗数值。</p>
+    </div>
+  </header>
+  <main class="archive-wrap">
+    <nav class="archive-tabs" aria-label="资料分类" id="archive-tabs"></nav>
+    <form class="archive-controls" role="search" id="archive-search">
+      <label class="archive-field">搜索资料
+        <input id="archive-query" type="search" autocomplete="off" placeholder="输入名称、盟约、效果或敌人">
+      </label>
+      <label class="archive-field">筛选
+        <select id="archive-filter"></select>
+      </label>
+      <label class="archive-field">搜索范围
+        <select id="archive-scope">
+          <option value="category">当前栏目</option>
+          <option value="all">全部栏目</option>
+        </select>
+      </label>
+    </form>
+    <section aria-labelledby="archive-section-name">
+      <div class="archive-results-heading">
+        <h2><span id="archive-section-name">盟约报告</span><span class="archive-count" id="archive-count" role="status"></span></h2>
+        <a id="archive-source" target="_blank" rel="noopener noreferrer">PRTS 原始资料 ↗</a>
+      </div>
+      <p class="archive-note" id="archive-note"></p>
+      <div class="archive-results" id="archive-results"></div>
+      <p class="archive-empty" id="archive-empty" hidden>没有匹配的条目。试试缩短关键词或切换搜索范围。</p>
+      <button type="button" class="archive-more" id="archive-more" hidden>显示更多</button>
+      <noscript><p>启用 JavaScript 后即可在本站搜索。也可直接查看 <a href="https://prts.wiki/w/卫戍协议·规程/PRTS盟约记录">PRTS 盟约记录</a>。</p></noscript>
+    </section>
+    <footer class="archive-footer">
+      <p>2026 年 11 月 · 规程序列Ⅰ。战地广播按触发条件整理，站位攻略为实战参考。</p>
+      <p>资料来源 <a href="https://prts.wiki/w/卫戍协议·规程/PRTS盟约记录" target="_blank" rel="noopener noreferrer">PRTS 盟约记录</a> · <a href="https://ak.hypergryph.com/news/4915" target="_blank" rel="noopener noreferrer">鹰角网络活动公告</a></p>
+      <p>干员头像与游戏名称归原权利人所有。</p>
+    </footer>
+  </main>
+  <script src="protocol-data.js?v=20261120-1"></script>
+  <script>
+    const reference = "https://prts.wiki/w/卫戍协议·规程/PRTS盟约记录";
+    const wikiPage = "https://prts.wiki/w/";
+    const sections = {
+      alliances: { nav: "盟约", label: "盟约报告", anchor: "S.W.E.E.P.盟约报告", note: "层数指当前盟约层数。激活门槛、在场进阶条件和层数奖励分别列出。" },
+      strategies: { nav: "策略", label: "策略报告", anchor: "S.W.E.E.P.策略报告", note: "初始生命值、操作方式、消耗和解锁条件可按策略发起人检索。" },
+      enemies: { nav: "敌人", label: "敌方资料", anchor: "敌方资料", note: "领袖卡片可展开各难度的生命值，并查看隐秘核心的独立数值。" },
+      operators: { nav: "干员", label: "干员数据库", anchor: "干员数据库", note: "按调度池等阶、盟约和特质检索。干员的原型及预设替换关系列在卡片中。" },
+      phases: { nav: "机变", label: "机变阶段", anchor: "机变阶段", note: "敌人轮选按登场时段与击倒奖励整理，联合选项包含对队友的效果。" },
+      equipment: { nav: "装备", label: "装备数据库", anchor: "装备数据库", note: "装备效果可在整备区生效，属性加成于战斗中应用。同名效果通常叠加并独立判定。标有合并限制的装备，可通过特定途径变为进阶品质。特定组合可同时获得两件装备的效果及额外能力。" },
+      radio: { nav: "广播", label: "战地广播", anchor: "战地广播", note: "按广播何时出现及会显示的信息整理。" },
+      tips: { nav: "贴士", label: "专属贴士", anchor: "专属贴士", note: "涵盖调度、整备、联防和最终攻势。" }
+    };
+
+    function node(type, content = "", className = "") {
+      const element = document.createElement(type);
+      if (className) element.className = className;
+      if (content) element.textContent = content;
+      return element;
+    }
+
+    function anchor(label, url, className = "", external = false) {
+      const element = node("a", label, className);
+      element.href = url;
+      if (external) {
+        element.target = "_blank";
+        element.rel = "noopener noreferrer";
+      }
+      return element;
+    }
+
+    function address(category, name = "") {
+      const params = new URLSearchParams({ category });
+      if (name) params.set("record", name);
+      return "database.html?" + params;
+    }
+
+    function sourceAddress(category, record) {
+      const section = sections[category];
+      const fragment = category === "alliances" ? record.group
+        : category === "equipment" && record.anchor ? record.name
+        : category === "enemies" && record.group === "领袖" ? "领袖"
+        : category === "enemies" && record.group === "战术特训" ? "战术特训敌人"
+        : section.anchor;
+      return reference + "#" + encodeURIComponent(fragment);
+    }
+
+    function makeFields(pairs) {
+      const list = node("dl", "", "archive-fields");
+      for (const [key, value] of pairs) {
+        const line = node("div");
+        line.append(node("dt", key), node("dd", value));
+        list.append(line);
+      }
+      return list;
+    }
+
+    function makeChips(items, label) {
+      const box = node("div", "", "archive-chips");
+      if (label) box.setAttribute("aria-label", label);
+      box.append(...items);
+      return box;
+    }
+
+    function makeHealth(stats) {
+      const details = node("details");
+      const summary = node("summary", "生命值 · " + stats.length + " 个模式和等级");
+      const table = node("table", "", "archive-stats");
+      table.setAttribute("aria-label", "不同模拟等级下的领袖生命值");
+      const headings = table.createTHead().insertRow();
+      for (const label of ["难度／规程等级", "最终攻势", "隐秘核心"]) {
+        const th = node("th", label);
+        th.scope = "col";
+        headings.append(th);
+      }
+      const tbody = table.createTBody();
+      for (const [mode, health] of stats) {
+        const row = tbody.insertRow();
+        const heading = node("th", mode);
+        heading.scope = "row";
+        row.append(heading, node("td", health[0]), node("td", health[1] ?? "—", "archive-secret"));
+      }
+      details.append(summary, table);
+      return details;
+    }
+
+    const selected = new URLSearchParams(location.search);
+    const keys = Object.keys(sections);
+    const category = keys.includes(selected.get("category")) ? selected.get("category") : "alliances";
+    const directName = selected.get("record") ?? "";
+    const isDirect = protocolData[category].some(record => record.name === directName);
+    const query = document.getElementById("archive-query");
+    const filter = document.getElementById("archive-filter");
+    const scope = document.getElementById("archive-scope");
+    const list = document.getElementById("archive-results");
+    const count = document.getElementById("archive-count");
+    const more = document.getElementById("archive-more");
+    const empty = document.getElementById("archive-empty");
+    const sectionName = document.getElementById("archive-section-name");
+    const sectionNote = document.getElementById("archive-note");
+    const sectionSource = document.getElementById("archive-source");
+    const allianceNames = new Set(protocolData.alliances.map(entry => entry.name));
+    const operatorNames = new Set(protocolData.operators.map(entry => entry.name));
+    const pageSize = 24;
+
+    function makeCard(record, key) {
+      const card = node("article", "", "archive-card");
+      const head = node("div", "", "archive-card-head");
+      const portraitUrl = key === "operators" ? protocolPortraits[record.name] : "";
+      if (portraitUrl) {
+        const portrait = node("img", "", "archive-portrait");
+        portrait.src = portraitUrl;
+        portrait.alt = record.name + "的头像";
+        portrait.loading = "lazy";
+        portrait.referrerPolicy = "no-referrer";
+        portrait.addEventListener("error", () => portrait.remove(), { once: true });
+        head.append(portrait);
+      }
+      const heading = node("div");
+      const title = node("h3", record.name);
+      const meta = node("div", "", "archive-card-meta");
+      meta.append(node("strong", record.group));
+      if (record.badge) meta.append(node("span", record.badge));
+      heading.append(title, meta);
+      head.append(heading);
+      card.append(head);
+      if (record.tags?.length) {
+        const tags = record.tags.map(label => allianceNames.has(label)
+          ? anchor(label, address("alliances", label), "archive-chip")
+          : node("span", label, "archive-chip"));
+        card.append(makeChips(tags, "标签"));
+      }
+      if (record.variants?.length) {
+        const variants = record.variants.map(name => anchor(name.replace("(卫戍协议)", ""), wikiPage + encodeURIComponent(name), "archive-chip", true));
+        card.append(makeChips([node("span", "预设", "archive-chip"), ...variants], "预设替换"));
+      }
+      if (record.fields.length) card.append(makeFields(record.fields));
+      if (record.stats) card.append(makeHealth(record.stats));
+      if (record.people?.length) {
+        const allies = record.people.map(label => operatorNames.has(label)
+          ? anchor(label, address("operators", label), "archive-chip")
+          : anchor(label, wikiPage + encodeURIComponent(label), "archive-chip", true));
+        const details = node("details");
+        details.append(node("summary", "所属干员 · " + record.people.length), makeChips(allies, "所属干员"));
+        card.append(details);
+      }
+      if (record.enemyPages?.length) {
+        const details = node("details");
+        const enemyLinks = record.enemyPages.map(name => anchor(name, wikiPage + encodeURIComponent(name), "archive-chip", true));
+        details.append(node("summary", "敌人列表 · " + enemyLinks.length), makeChips(enemyLinks, "敌人列表"));
+        card.append(details);
+      }
+      const links = node("div", "", "archive-card-foot");
+      if (key === "operators") {
+        links.append(anchor("干员原型 ↗", wikiPage + encodeURIComponent(record.name), "", true));
+      }
+      links.append(anchor("PRTS 对照 ↗", sourceAddress(key, record), "", true));
+      card.append(links);
+      return card;
+    }
+
+    function normalize(value) {
+      return value.normalize("NFKC").toLocaleLowerCase("zh-CN");
+    }
+
+    const searchable = keys.flatMap(key => protocolData[key].map(entry => ({
+      key, entry, text: normalize([
+        sections[key].label, entry.name, entry.group, entry.badge,
+        ...(entry.tags ?? []), ...(entry.variants ?? []), ...(entry.people ?? []),
+        ...(entry.enemyPages ?? []), ...entry.fields.flat(), ...(entry.stats ?? []).flat(2)
+      ].filter(Boolean).join(" "))
+    })));
+
+    let visibleLimit = pageSize;
+    let exactRecord = isDirect ? directName : "";
+    query.value = exactRecord || selected.get("q") || "";
+    scope.value = selected.get("scope") === "all" ? "all" : "category";
+
+    const allGroups = [...new Set(protocolData[category].map(item => item.group))];
+    filter.add(new Option("全部分类", "all"));
+    for (const group of allGroups) filter.add(new Option(group, group));
+    if (allGroups.includes(selected.get("group"))) filter.value = selected.get("group");
+
+    const tabBar = document.getElementById("archive-tabs");
+    for (const key of keys) {
+      const tab = anchor(sections[key].nav, address(key), "archive-tab");
+      tab.append(node("small", String(protocolData[key].length)));
+      if (key === category) tab.setAttribute("aria-current", "page");
+      tabBar.append(tab);
+    }
+
+    function render() {
+      const all = scope.value === "all";
+      const current = sections[category];
+      const tokens = normalize(query.value.trim()).split(/\s+/).filter(Boolean);
+      filter.disabled = all;
+      const filtered = searchable.filter(({ key, entry, text }) => {
+        if (!all && (key !== category || filter.value !== "all" && entry.group !== filter.value)) return false;
+        if (exactRecord) return entry.name === exactRecord;
+        return tokens.every(token => text.includes(token));
+      });
+      sectionName.textContent = all ? "全部资料" : current.label;
+      sectionNote.textContent = all ? "" : current.note;
+      sectionNote.hidden = all;
+      sectionSource.href = all ? reference : reference + "#" + encodeURIComponent(current.anchor);
+      count.textContent = filtered.length + " 条";
+      list.replaceChildren(...filtered.slice(0, visibleLimit).map(({ key, entry }) => makeCard(entry, key)));
+      empty.hidden = filtered.length > 0;
+      more.hidden = visibleLimit >= filtered.length;
+      more.textContent = "显示更多（剩余 " + (filtered.length - visibleLimit) + " 条）";
+    }
+
+    function applyFilters() {
+      exactRecord = "";
+      visibleLimit = pageSize;
+      const params = new URLSearchParams({ category });
+      if (query.value.trim()) params.set("q", query.value.trim());
+      if (scope.value === "all") params.set("scope", "all");
+      if (filter.value !== "all" && scope.value !== "all") params.set("group", filter.value);
+      history.replaceState(null, "", "?" + params);
+      render();
+    }
+
+    document.getElementById("archive-search").addEventListener("submit", event => {
+      event.preventDefault();
+      applyFilters();
+    });
+    query.addEventListener("input", applyFilters);
+    filter.addEventListener("change", applyFilters);
+    scope.addEventListener("change", applyFilters);
+    more.addEventListener("click", () => {
+      visibleLimit += pageSize;
+      render();
+    });
+    render();
+  </script>
+</body>
+</html>

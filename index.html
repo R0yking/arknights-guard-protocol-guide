@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>卫戍协议 · 盟约指南 · 2026.11</title>
+<title>卫戍协议 · 规程 · 盟约指南</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
@@ -847,6 +847,16 @@
 <link rel="preload" href="tactical-city.jpg" as="image">
 <link rel="stylesheet" href="theme.css?v=20261120-2">
 <meta name="theme-color" content="#0e141a">
+  <style>
+    .guide-archive-link { display: inline-flex; align-items: center; gap: 12px; margin-top: 19px; padding: 10px 15px; border: 1px solid var(--primary-start); border-radius: var(--radius-sm); background: var(--primary-start); color: var(--primary-text); text-decoration: none; font-weight: 650; }
+    .guide-archive-link:hover { background: var(--primary-hover); }
+    .guide-archive-compact { margin-top: 0; background: var(--control-surface); border-color: var(--border-subtle); color: var(--text); }
+    .guide-archive-compact:hover { background: var(--control-hover); }
+    .guide-record-link { text-decoration: none; }
+    .guide-record-arrow { color: var(--gold); margin-left: auto; }
+    .guide-extra-covenants { margin-top: 8px; }
+    footer a { color: var(--gold-bright); }
+  </style>
 </head>
 <body>
 <div class="bg-grid"></div>
@@ -856,7 +866,8 @@
     <div class="hero">
       <div class="hero-eyebrow">Arknights · Guard Protocol</div>
       <h1>卫戍协议 · 盟约指南</h1>
-      <p class="hero-sub">2026 年 11 月版本 · 核心盟约与附加盟约详解</p>
+      <p class="hero-sub">规程 · 序列Ⅰ · 盟约配队与站位</p>
+      <a class="guide-archive-link" href="database.html">打开规程资料库 <span aria-hidden="true">↗</span></a>
       <div class="hero-divider"><span class="diamond"></span></div>
     </div>
 
@@ -867,7 +878,7 @@
       </div>
     </div>
 
-    <details class="formation-overview" open>
+    <details class="formation-overview" id="formations" open>
       <summary><span>总体站位图</span><span class="overview-count">22 套</span></summary>
       <div class="overview-content">
         <div class="overview-controls">
@@ -889,20 +900,43 @@
 
     <div class="section-head">
       <h2>附加盟约</h2>
-      <span class="count">SUB · 12</span>
+      <span class="count">SUB · 16</span>
       <span class="accent-line"></span>
     </div>
     <div class="entry-list" id="subEntries"></div>
+    <div class="entry-list guide-extra-covenants">
+      <a class="entry-card guide-record-link" href="database.html?category=alliances&amp;record=%E8%B0%83%E5%92%8C">
+        <div class="entry-emblem em-sub">调</div>
+        <div class="entry-info"><div class="entry-name sub">调和</div><div class="entry-desc">1 人激活 · 核心盟约人数 +1</div></div>
+        <span class="guide-record-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="entry-card guide-record-link" href="database.html?category=alliances&amp;record=%E5%8D%8F%E9%98%B2%E5%B9%B2%E5%91%98">
+        <div class="entry-emblem em-sub">防</div>
+        <div class="entry-info"><div class="entry-name sub">协防干员</div><div class="entry-desc">2 人激活 · 全队减伤</div></div>
+        <span class="guide-record-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="entry-card guide-record-link" href="database.html?category=alliances&amp;record=%E7%8B%AC%E8%A1%8C">
+        <div class="entry-emblem em-sub">独</div>
+        <div class="entry-info"><div class="entry-name sub">独行</div><div class="entry-desc">1 人激活 · 单人强化</div></div>
+        <span class="guide-record-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="entry-card guide-record-link" href="database.html?category=alliances&amp;record=%E7%BB%9D%E6%8A%80">
+        <div class="entry-emblem em-sub">绝</div>
+        <div class="entry-info"><div class="entry-name sub">绝技</div><div class="entry-desc">2 名精锐激活 · 5 名降低技力消耗</div></div>
+        <span class="guide-record-arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
 
     <footer>
-      基于 2026 年 11 月 NGA 解包数据与社区讨论整理<br>
-      拉特兰已移除 · 干员头像联网加载 · 站位图为相对关系示意 · 实战以游戏内为准
+      编队攻略整理自社区讨论。完整数值、激活条件及发起人效果收录于 <a href="database.html">规程资料库</a>。<br>
+      站位图为相对位置示意 · 规程序列Ⅰ资料参考 <a href="https://prts.wiki/w/卫戍协议·规程/PRTS盟约记录" target="_blank" rel="noopener noreferrer">PRTS 盟约记录</a>
     <p class="asset-credit">干员图像版权归鹰角网络及原权利人所有。图片来源：<a href="https://github.com/yuanyan3060/ArknightsGameResource" target="_blank" rel="noopener noreferrer">游戏素材整理</a>；杜遥夜肖像来源：<a href="https://prts.wiki/w/文件:卫戍协议：盟约_策略发起人_杜遥夜.png" target="_blank" rel="noopener noreferrer">PRTS</a>。站位按本文描述绘制，不对应固定地图坐标。</p></footer>
   </div>
 
   <div id="detailView">
     <div class="detail-topbar">
       <button class="back-btn" onclick="showList()">返回列表</button>
+      <a class="guide-archive-link guide-archive-compact" href="database.html">规程资料库 <span aria-hidden="true">↗</span></a>
     </div>
     <div id="detailContent"></div>
   </div>
@@ -980,9 +1014,9 @@ const cores = [
     stack: '地灵靠攻击范围内击杀叠层，折光靠休整期叠层。前期地灵+折光就能开始运转。',
     synergy: {
       subs: ['精准', '奥术', '聚合'],
-      logic: '莱塔尼亚本家叠层效率中规中矩，真正让它滚起来的是<strong>霍尔海雅（雅雅）</strong>——她带 1 技能，开技能同时叠<strong>精准和奥术</strong>，是双重叠层引擎；<strong>空弦</strong>在休整期给身前干员的所有已激活盟约 +3，进一步加速精准；<strong>华法林</strong>放雅雅身后缩短技能周期。聚合补的是莱塔尼亚召唤物体系最缺的前排——层数没起来之前，没有聚合的召唤物“战力堪比滚木”，层数高了才可以不要前排。',
-      combo: '<strong>黑键</strong> + <strong>纯烬艾雅法拉（奶羊）</strong>（莱塔尼亚 + 聚合） + <strong>霍尔海雅（1技能）</strong>（精准 + 奥术双叠核心） + <strong>空弦</strong>（万能叠层，放雅雅身前） + <strong>华法林</strong>（站雅雅身后，加速技能） + <strong>卡达</strong>（奥术叠层） + <strong>逻各斯</strong>（精准/奥术输出终端）。',
-      final: '6 莱塔尼亚 + 3 精准 + 3 奥术 + 2/3 聚合。雅雅站华法林身前、空弦身前；奶羊后排；逻各斯吃精准奥术双加成打终端。'
+      logic: '莱塔尼亚本家叠层效率中规中矩，真正让它滚起来的是<strong>霍尔海雅（雅雅）</strong>——她带 1 技能，开技能同时叠<strong>精准和奥术</strong>，是双重叠层引擎；<strong>空弦</strong>进入休整期时为自身和身前一格干员的已激活盟约 +3（精锐 +6）；<strong>华法林</strong>放雅雅身后缩短技能周期。聚合补的是莱塔尼亚召唤物体系最缺的前排——层数没起来之前，没有聚合的召唤物“战力堪比滚木”，层数高了才可以不要前排。',
+      combo: '<strong>黑键</strong> + <strong>纯烬艾雅法拉（奶羊）</strong>（莱塔尼亚 + 聚合） + <strong>霍尔海雅（1技能）</strong>（精准 + 奥术双叠核心） + <strong>空弦</strong>（朝向霍尔海雅，放在她身后一格） + <strong>华法林</strong>（站雅雅身后，加速技能） + <strong>卡达</strong>（奥术叠层） + <strong>逻各斯</strong>（奥术／远见输出）。',
+      final: '6 莱塔尼亚 + 3 精准 + 3 奥术 + 2/3 聚合。空弦与华法琳都朝向霍尔海雅，从相邻两侧为她提供支援；奶羊后排；逻各斯可获得奥术与远程精准加成。'
     },
     position: '地灵放在能打到最多怪的位置，折光随便放（休整期就叠）。奶羊的攻击范围要覆盖战场。',
     leveling: '复奏策略：2 本找对子，升 3 碰，精准奥术叠层，升 4 碰奶羊。',
@@ -1007,7 +1041,7 @@ const cores = [
     stack: '野鬃和砾都是部署时叠层。不停地上场、撤退、再上场，层数就上去了。',
     synergy: {
       subs: ['突袭', '不屈', '精准'],
-      logic: '卡西米尔的“反复部署”天然吃<strong>突袭</strong>——突袭干员 10 秒没攻击就自动飞向敌人，等于白送一次再部署，同时叠突袭层数；<strong>不屈</strong>给地面干员复活容错，反复部署的节奏不会被打断；<strong>精准</strong>给远牙这类远程输出补双抗穿透。',
+      logic: '卡西米尔的“反复部署”天然吃<strong>突袭</strong>——突袭干员连续 10 秒未攻击或技能就绪，并且范围内没有敌人时，会自动再部署到地面敌人附近；<strong>不屈</strong>给地面干员复活容错，反复部署的节奏不会被打断；<strong>精准</strong>给远牙这类远程输出补双抗穿透。',
       combo: '<strong>野鬃</strong>（部署叠层核心） + <strong>砾</strong>（低本部署叠层） + <strong>远牙</strong>（精准远程输出） + <strong>玛恩纳</strong>（叠层后加攻加血） + <strong>赫德雷</strong>（突袭叠层） + <strong>摆渡人</strong>（坚守/不屈容错） + <strong>灰喉</strong>（精准叠层）。',
       final: '6 卡西米尔 + 3 突袭 + 3 不屈 + 3 精准。野鬃和砾反复上下场叠卡西米尔；赫德雷自动飞叠突袭；摆渡人给不屈；远牙吃精准打输出。'
     },
@@ -1023,7 +1057,7 @@ const cores = [
     id: 'victoria', name: '维多利亚', emblem: '维', cls: 'em-victoria', titleCls: 'core',
     sub: '装备驱动 · 需要杰西卡 · 不建议首玩',
     simple: '维多利亚靠<strong>给干员带装备</strong>叠层。场上带装备的维干员越多，层数越高。核心是涤火杰西卡，她每回合给道具。没有杰西卡，维多利亚很难玩。',
-    effect: '携带装备的维多利亚干员造成伤害提升。每 25 层获得一件维式重锤。6 人：携带装备的维干员攻击力 +80%。',
+    effect: '携带装备的维多利亚干员造成伤害提升。每 25 层获得一件维式重锤。6 名不同成员在场时，每件普通装备给携带者增加 40% 攻击力，进阶装备每件增加 80%。',
     ops: [
       { n: '慕斯', c: 'c5', note: '1本 · 休整期叠层', must: true },
       { n: '涤火杰西卡', c: 'c10', note: '4本 · 核心。场上每有一名带装备的干员就叠层', must: true },
@@ -1033,9 +1067,9 @@ const cores = [
     stack: '慕斯低本叠层。杰西卡是真正叠层核心：场上带装备的人越多，她叠得越快。',
     synergy: {
       subs: ['灵巧', '精准', '远见'],
-      logic: '维多利亚的装备经济天然和<strong>灵巧</strong>（花费叠层）联动——杰西卡给道具、白铁精锐化都要花钱，花钱同时叠灵巧，形成“越花越强”的循环。这是当前公认上限最高的<strong>灵巧维</strong>路线。<strong>精准</strong>吃维多利亚三维/六维的独立乘区，收益极高；<strong>远见</strong>补经济，让杰西卡的道具循环更顺。',
-      combo: '<strong>慕斯</strong>（低本休整期叠层） + <strong>涤火杰西卡</strong>（核心，场上带装备越多叠越快） + <strong>白铁</strong>（工匠精锐化装备） + <strong>维娜</strong>（高本输出） + <strong>霜叶</strong>（灵巧叠层） + <strong>空弦</strong> + <strong>断崖</strong>（灵巧/精准左脚踩右脚） + <strong>淬羽赫默</strong>（助力，整备区生效）。',
-      final: '6 维多利亚 + 3 灵巧 + 3 精准 + 助力。杰西卡站安全位，场上 8 人尽量都带装备；空弦和断崖放一起互相触发；淬羽赫默放整备区不占部署位。'
+      logic: '涤火杰西卡在休整期结束时按场上携装人数叠维多利亚和坚守。白铁可把自身携带的装备进阶。<strong>灵巧</strong>补邻近攻速，<strong>精准</strong>补远程双抗穿透，<strong>远见</strong>提供资金周转。',
+      combo: '<strong>慕斯</strong>（低本休整期叠层） + <strong>涤火杰西卡</strong>（核心，场上带装备越多叠越快） + <strong>白铁</strong>（工匠精锐化装备） + <strong>维娜</strong>（高本输出） + <strong>霜叶</strong>（灵巧叠层） + <strong>空弦</strong> + <strong>断崖</strong>（灵巧/精准左脚踩右脚） + <strong>淬羽赫默</strong>（助力，特质为整备区成员叠层）。',
+      final: '6 维多利亚 + 3 灵巧 + 3 精准 + 助力。杰西卡站安全位，场上 8 人尽量都带装备；空弦和断崖放一起互相触发；让助力成员上场可激活叠层奖励。'
     },
     position: '杰西卡放在安全位置。带装备的干员尽量分散在场上。',
     leveling: '前期先用 <strong>3 坚守</strong>过渡，不要硬等维。3-4 本找杰西卡。找到杰西卡后给场上 8 个人都带装备。',
@@ -1140,7 +1174,7 @@ const cores = [
     stack: '拉普兰德获得时叠层，忍冬、四爷、铃兰也能叠。但<strong>核心叠层手和终端都在高本</strong>。',
     synergy: {
       subs: ['奥术', '不屈', '突袭'],
-      logic: '叙拉古没有坚守、没有聚合，<strong>生存是最大短板</strong>，所以外援肉盾和奶必须从副盟约里补——<strong>不屈</strong>给地面复活容错，<strong>突袭</strong>让干员自动飞走规避伤害。异常真伤吃<strong>奥术</strong>的法术增伤，能提升 BOSS 战输出。',
+      logic: '叙拉古没有坚守、没有聚合，<strong>生存是最大短板</strong>，所以外援肉盾和奶必须从副盟约里补——<strong>不屈</strong>给地面复活容错，<strong>突袭</strong>让干员自动飞走规避伤害。<strong>奥术</strong>提供一段独立的追加法伤，并削减法抗。异常引发的真实伤害按其自身公式结算。',
       combo: '<strong>拉普兰德</strong>（获得时叠层） + <strong>忍冬</strong> + <strong>四爷</strong> + <strong>铃兰</strong>（叠层） + <strong>荒芜拉普兰德</strong>（6本核心终端） + <strong>卡达</strong>（奥术叠层） + <strong>斥罪</strong>（叙拉古 + 不屈） + <strong>赫德雷</strong>（突袭叠层）。',
       final: '6 叙拉古 + 3 奥术 + 3 不屈 + 突袭。2 本停到 7 回合找拉狗，碰忍冬和四爷；8-9 回合直上 4 本，然后速 6；荒芜拉普兰德是终端。'
     },
@@ -1157,27 +1191,27 @@ const cores = [
   {
     id: 'yan', name: '炎', emblem: '炎', cls: 'em-yan', titleCls: 'core',
     sub: '拜松获得即叠层 · 4 本炎即战力',
-    simple: '炎的核心是<strong>拜松</strong>，拿到就叠层，非常简单。4 本找到杜遥夜、仇白、余之后，炎队开始发力。前期比较弱，需要用小盟约过渡。',
+    simple: '炎的核心是<strong>拜松</strong>，拿到就叠层，非常简单。4 本找到仇白、余之后，炎队开始发力。杜遥夜是策略发起人，她的指令可优先刷新炎干员。前期比较弱，需要用小盟约过渡。',
     effect: '炎干员攻击力提升。6 人：攻击附带随机元素损伤，全场敌人元素损伤恢复速度提升。',
     ops: [
       { n: '拜松', c: 'c1', note: '1本 · 获得时叠层', must: true },
-      { n: '杜遥夜', c: 'c7', note: '4本 · 稳定炎流核心', must: true },
+      { n: '杜遥夜', c: 'c7', note: '策略发起人 · 优先刷新炎干员', must: true },
       { n: '仇白', c: 'c9', note: '4本 · 获得时叠炎 + 灵巧' },
       { n: '余', c: 'c2', note: '4本' }
     ],
-    stack: '拜松获得时叠层。<strong>4 本找杜遥夜、仇白、余</strong>，找到后炎队就成型了。',
+    stack: '拜松获得时叠层。<strong>4 本找仇白、余</strong>，找到后炎队就成型了。',
     synergy: {
       subs: ['奥术', '精准', '灵巧'],
-      logic: '6 炎附带<strong>元素损伤</strong>，和<strong>奥术</strong>的法术增伤同属伤害乘区，联动收益高；仇白自带灵巧，<strong>灵巧</strong>的花费叠层能自然补上；<strong>精准</strong>给远程炎干员补双抗穿透。炎前期弱，所以副盟约要选能独立过渡的。',
-      combo: '<strong>拜松</strong>（获得时叠层，看到就抓） + <strong>杜遥夜</strong>（4本稳定炎流核心） + <strong>仇白</strong>（炎 + 灵巧） + <strong>余</strong>（4本） + <strong>卡达</strong>（奥术叠层） + <strong>霜叶</strong>（灵巧叠层） + <strong>灰喉</strong>（精准叠层）。',
-      final: '6 炎 + 3 奥术 + 3 精准 + 灵巧。前期用小盟约过渡，不要硬玩炎；4 本找到杜遥夜后开始发力；仇白站能打怪的位置。'
+      logic: '6 炎攻击附带<strong>元素损伤</strong>。<strong>奥术</strong>可补额外法伤和法抗削减，效果按各自伤害类型结算。仇白获得时能叠炎和<strong>灵巧</strong>。<strong>精准</strong>在部署 3 名不同成员后可为远程干员提供双抗穿透。炎前期弱，所以副盟约要选能独立过渡的。',
+      combo: '<strong>拜松</strong>（获得时叠层，看到就抓） + <strong>杜遥夜</strong>（策略发起人） + <strong>仇白</strong>（炎 + 灵巧） + <strong>余</strong>（4本） + <strong>卡达</strong>（奥术叠层） + <strong>霜叶</strong>（灵巧叠层） + <strong>灰喉</strong>（精准叠层）。',
+      final: '6 炎 + 3 奥术 + 3 精准 + 灵巧。前期用小盟约过渡，不要硬玩炎；4 本找到仇白或余后开始发力；仇白站能打怪的位置。'
     },
-    position: '杜遥夜和仇白放在能打到怪的位置。',
-    leveling: '前期用其他小盟约过渡，不要硬玩炎。4 本找到杜遥夜后开始发力。',
+    position: '仇白放在能打到怪的位置。余的周围八格尽量覆盖发生元素爆发的敌人。',
+    leveling: '前期用其他小盟约过渡，不要硬玩炎。4 本找到仇白或余后开始发力。',
     tips: [
       '炎的四本是即战力最强的，但前期比较弱势。',
       '拜松是低本叠层关键，看到就抓。',
-      '6 炎道中无敌，但打 BOSS 可能没别家快。'
+      '6 炎后可以按领袖抗性和战场路线选择补输出或承伤。'
     ]
   }
 ];
@@ -1279,19 +1313,19 @@ const subs = [
   {
     id: 'assist', name: '助力', emblem: '助', cls: 'em-sub', titleCls: 'sub',
     sub: '全盟约加速 · 通用插件',
-    simple: '助力在休整期结束时给整备区里所有干员的盟约加层数。放整备区就能生效，不占部署位。',
-    effect: '休整期结束时，整备区中每名干员所在的已激活盟约分别层数 +2（3 人时 +4）。',
+    simple: '部署 2 名助力干员后，全队防御力增加、再部署加快。每次休整期结束会为已激活的盟约叠层。',
+    effect: '全队防御力增加 (15 + 1.2 × 层数)%，再部署时间缩短 30%。休整期结束时每个已激活盟约增加 2 层。在场 3 名不同助力干员时改为增加 4 层。',
     ops: [
       { n: '淬羽赫默', c: 'c2', note: '4本 · 休整期结束时给整备区每名干员的盟约 +1/2', must: true },
       { n: '夏栎', c: 'c6', note: '1本 · 整备区也生效' },
       { n: '白铁', c: 'c7', note: '4本 · 维多利亚 + 助力' }
     ],
-    stack: '淬羽赫默和夏栎放在整备区就能生效。',
-    position: '<strong>放整备区，不用上场。</strong>',
+    stack: '淬羽赫默的特质可为整备区干员的已激活盟约叠层。夏栎在整备区也能给当前层数最高的已激活盟约加层。',
+    position: '助力激活需要上场成员。第三名助力干员上场后，休整期层数奖励翻倍。',
     leveling: '正常升本。',
     tips: [
       '通用加速器，不管你主玩什么都能用。',
-      '夏栎放整备区就生效，不占部署位。',
+      '夏栎留在整备区也会触发自身叠层特质。',
       '常见搭配：维多利亚（助力4）。'
     ]
   },
@@ -1354,9 +1388,9 @@ const subs = [
   },
   {
     id: 'deft', name: '灵巧', emblem: '灵', cls: 'em-sub', titleCls: 'sub',
-    sub: '攻速 · 花费叠层',
-    simple: '灵巧加攻速，40 层后范围变大。花钱也能叠灵巧层数。',
-    effect: '灵巧干员及周围干员攻速提升。40 层后范围从 4 格变 8 格。休整期结束时，本回合每花费 3 资金，灵巧/奥术层数 +2/4。',
+    sub: '攻速 · 邻近支援',
+    simple: '灵巧加攻速，40 层后范围变大。部分干员的特质可按本回合的资金花费叠层。',
+    effect: '灵巧干员及周围干员攻速提升。40 层后范围从 4 格变 8 格。花费叠层由特定干员的特质触发。',
     ops: [
       { n: '霜叶', c: 'c2', note: '1本 · 获得时叠层', must: true },
       { n: '空弦', c: 'c3', note: '和断崖左脚踩右脚叠灵巧' },
@@ -1367,7 +1401,7 @@ const subs = [
     position: '空弦和断崖放一起，互相触发。',
     leveling: '正常升本。',
     tips: [
-      '和远见、奇迹搭配，花钱就能叠层。',
+      '远见和奇迹可帮助周转资金。花费叠层需要相应干员的特质。',
       '40 层后范围扩大。',
       '常见搭配：萨尔贡（灵巧5）、维多利亚（灵巧3）。'
     ]
@@ -1376,7 +1410,7 @@ const subs = [
     id: '突袭', name: '突袭', emblem: '突', cls: 'em-sub', titleCls: 'sub',
     sub: '再部署 · 全体攻速',
     simple: '突袭让干员能自己飞到敌人身边打，50 层后全队攻速 +50。',
-    effect: '突袭干员 10 秒内未攻击且范围内无敌人时，保留技力立即再部署至一名地面敌人周围。50 层：所有干员攻速 +50。',
+    effect: '突袭干员满足连续 10 秒未攻击或技能就绪中的任一条件，且范围内没有敌人时，保留技力并立即再部署到一名地面敌人附近。50 层：所有干员攻速 +50。',
     ops: [
       { n: '赫德雷', c: 'c8', note: '4本 · 部署时叠突袭', must: true },
       { n: '杰克', c: 'c7', note: '1本 · 伤害变弱点伤害' }
@@ -2048,7 +2082,7 @@ const FORMATIONS = {
       "杜遥夜"
     ],
     "benchLabel": "策略发起人（非上场干员）",
-    "note": "拜松承伤，仇白靠近交战区。杜遥夜是策略发起人，肖像放在图外；原文把她列在干员中，这里不占部署格。"
+    "note": "拜松承伤，仇白靠近交战区。杜遥夜是策略发起人，选择她后可使用指令优先刷新炎干员。"
   },
   "arcane": {
     "units": [
@@ -2231,8 +2265,8 @@ const FORMATIONS = {
       "夏栎",
       "白铁"
     ],
-    "benchLabel": "整备区 · 助力生效位置",
-    "note": "助力组件留整备区示意；是否需要让白铁上场，按主队装备需求决定。"
+    "benchLabel": "待部署 · 助力组件",
+    "note": "助力成员需要上场才能计入激活人数。夏栎留在整备区时仍可触发自身特质。"
   },
   "foresight": {
     "units": [
