@@ -845,8 +845,8 @@
 
 </style>
 <link rel="preload" href="tactical-city.jpg" as="image">
-<link rel="stylesheet" href="theme.css?v=20261120">
-<meta name="theme-color" content="#0b141e">
+<link rel="stylesheet" href="theme.css?v=20261120-2">
+<meta name="theme-color" content="#0e141a">
 </head>
 <body>
 <div class="bg-grid"></div>
@@ -867,7 +867,19 @@
       </div>
     </div>
 
-    <details class="formation-overview" open><summary>总体站位图 · 22 套关系示意</summary><p class="overview-caption">选择盟约查看头像站位图，可放大查看或保存图片。</p><div class="formation-selector"><label for="formationSelect">选择盟约</label><select class="formation-select" id="formationSelect" onchange="updateOverview(this.value)"></select></div><div id="formationOverview"></div></details>
+    <details class="formation-overview" open>
+      <summary><span>总体站位图</span><span class="overview-count">22 套</span></summary>
+      <div class="overview-content">
+        <div class="overview-controls">
+          <div class="formation-selector">
+            <label for="formationSelect">选择盟约</label>
+            <select class="formation-select" id="formationSelect" onchange="updateOverview(this.value)"></select>
+          </div>
+          <div class="formation-actions" id="overviewActions"></div>
+        </div>
+        <div id="formationOverview"></div>
+      </div>
+    </details>
     <div class="section-head">
       <h2>核心盟约</h2>
       <span class="count">CORE · 10</span>
@@ -2510,18 +2522,43 @@ function formationSVG(id, resolvePortrait = portraitFor) {
   return svg;
 }
 
+function renderFormationActions(id, overview = false) {
+  const guideButton = overview
+    ? `<button class="formation-button formation-button--primary" type="button" onclick="showDetail('${id}')">查看完整攻略</button>`
+    : '';
+  return `
+    <button class="formation-button" type="button" onclick="openFormation('${id}')">
+      <span class="control-icon control-icon--zoom" aria-hidden="true"></span>放大查看
+    </button>
+    <button class="formation-button" type="button" onclick="saveFormation('${id}')">
+      <span class="control-icon control-icon--save" aria-hidden="true"></span>保存站位图
+    </button>
+    ${guideButton}`;
+}
+
 function renderFormation(id, overview = false) {
-  const f=FORMATIONS[id];
-  if(!f)return '';
-  return `<section class="formation-panel" aria-label="总体站位图">
-    <div class="formation-toolbar"><div><div class="formation-title">总体站位图</div><p class="formation-kicker">干员头像 · 前后排 · 部署朝向</p></div><div class="formation-actions"><button class="formation-button" type="button" onclick="openFormation('${id}')">放大查看</button><button class="formation-button" type="button" onclick="saveFormation('${id}')">保存站位图</button>${overview?`<button class="formation-button" type="button" onclick="showDetail('${id}')">查看完整攻略</button>`:''}</div></div>
+  const formation = FORMATIONS[id];
+  if (!formation) return '';
+  const toolbar = overview ? '' : `
+    <div class="formation-toolbar">
+      <div>
+        <div class="formation-title">总体站位图</div>
+        <p class="formation-kicker">干员头像 · 前后排 · 部署朝向</p>
+      </div>
+      <div class="formation-actions">${renderFormationActions(id)}</div>
+    </div>`;
+  return `<section class="formation-panel" aria-label="${overview ? '盟约站位示意' : '总体站位图'}">
+    ${toolbar}
     <div class="formation-scroll">${formationSVG(id)}</div>
-    <p class="formation-note">${escapeXML(f.note)}</p><p class="formation-disclaimer">示意图用于理解前后与相邻关系；具体格子、地形和上场人数按实际对局调整。手机可横向滑动看全图。</p>
+    <p class="formation-note">${escapeXML(formation.note)}</p>
+    <p class="formation-disclaimer">示意图用于理解前后与相邻关系；具体格子、地形和上场人数按实际对局调整。手机可横向滑动看全图。</p>
   </section>`;
 }
 
 function updateOverview(id) {
-  document.getElementById('formationOverview').innerHTML=renderFormation(id,true);
+  if (!FORMATIONS[id]) return;
+  document.getElementById('formationOverview').innerHTML = renderFormation(id, true);
+  document.getElementById('overviewActions').innerHTML = renderFormationActions(id, true);
 }
 
 function openFormation(id) {
